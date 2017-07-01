@@ -398,7 +398,7 @@
             <dependencies/>
             <component_set type="driver" selection="all"/>
             <component_set type="utility" selection="all"/>
-            <component_set type="CMSIS_driver" selection="all"/>
+            <component_set type="CMSIS_driver" selection="none"/>
             <component_set type="unsupported" selection="none"/>
          </project_config>
       </prjgen>

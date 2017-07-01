@@ -2620,6 +2620,9 @@
   <group>
     <name>source</name>
     <file>
+      <name>$PROJ_DIR$\source\data.cpp</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\source\data.h</name>
     </file>
     <file>

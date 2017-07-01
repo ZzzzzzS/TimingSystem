@@ -1,0 +1,17 @@
+"D:\ProgramFiles\iar\arm\bin\armproc.dll" 
+
+"D:\ProgramFiles\iar\arm\bin\armJET.dll" 
+
+"D:\m1899\×ÀÃæ\Timer\Project\MK64FN1M0xxx12_flash.icf" 
+
+--plugin "D:\ProgramFiles\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\ProgramFiles\iar\arm\config\debugger\NXP\Kxx.dmac" 
+
+--device_macro "D:\ProgramFiles\iar\arm\config\debugger\NXP\K6x_Trace.dmac" 
+
+--flash_loader "D:\ProgramFiles\iar\arm\config\flashloader\NXP\FlashK64Fxxx128K.board" 
+
+
+
+

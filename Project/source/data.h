@@ -9,6 +9,7 @@
 #include "clock_config.h"
 #include "fsl_gpio.h"
 
+/****灯光提示****/
 class LED
 {
 public:
@@ -20,6 +21,8 @@ private:
   gpio_pin_config_t LED_Config;
 };
 
+extern LED LEDBase;
+/****按键选择****/
 class button
 {
 public:
@@ -31,15 +34,29 @@ private:
   
 };
 
+extern button buttonBase;
+/****光电触发****/
 class check
 {
 public:
-  button();
+  check();
   void Car_Pass();              //光电管触发函数
   void check_Init();            //中断等初始化函数
 private:
   gpio_pin_config_t button_Config;
 };
+
+extern check checkBase;
+/****RTC计时****/
+typedef enum State
+{
+  Running,
+  Stop,
+  Ready,
+  
+  MAX_State
+} Clock_State;
+  
 
 class clock
 {
@@ -52,19 +69,25 @@ public:
     int M_Second;
   };
   void GetCurrentTime();
+  char Get_Current_State();
+  void Set_Current_State(char State);
+private:
+  void Check_Current_State();
   void start();
   void stop();
-  void pause();
-private:
-  rtc_datetime_t date;
-  rtc_config_t rtc_Config;
+  char Current_State;
   
 };
 
+extern clock clockBase;
+
+/****OLED显示****/
 class OLED
 {
 public:
 private:
 };
+
+extern OLED OLEDBase;
 
 #endif __DATA_H__

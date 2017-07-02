@@ -263,22 +263,7 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PinSignal" resourceId="RTC.EXTAL32" description="&apos;EXTAL32&apos; (Pins tool id: RTC.EXTAL32, Clocks tool id: RTC.EXTAL32) needs to be routed" problem_level="1" source="Clocks: BOARD_BootClockRUN">
-                     <feature name="routed" evaluation="">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PinSignal" resourceId="RTC.XTAL32" description="&apos;XTAL32&apos; (Pins tool id: RTC.XTAL32, Clocks tool id: RTC.XTAL32) needs to be routed" problem_level="1" source="Clocks: BOARD_BootClockRUN">
-                     <feature name="routed" evaluation="">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Clocks initialization requires the COMMON Driver in the project." problem_level="2" source="Clocks.BOARD_BootClockRUN">
-                     <feature name="enabled" evaluation="equal" configuration="core0">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.rtc" description="Clocks initialization requires the RTC Driver in the project." problem_level="2" source="Clocks.BOARD_BootClockRUN">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
                      </feature>
@@ -286,14 +271,12 @@
                </dependencies>
                <clock_sources>
                   <clock_source id="OSC.OSC.outFreq" value="50 MHz" locked="false" enabled="true"/>
-                  <clock_source id="RTC.RTC32kHz.outFreq" value="32.768 kHz" locked="false" enabled="true"/>
                </clock_sources>
                <clock_outputs>
                   <clock_output id="Bus_clock.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="CLKOUT.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="Core_clock.outFreq" value="120 MHz" locked="true" accuracy="0.001"/>
                   <clock_output id="ENET1588TSCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
-                  <clock_output id="ERCLK32K.outFreq" value="32.768 kHz" locked="false" accuracy=""/>
                   <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="FlexBus_clock.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="1 kHz" locked="false" accuracy=""/>
@@ -302,7 +285,6 @@
                   <clock_output id="OSCERCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="PLLFLLCLK.outFreq" value="120 MHz" locked="false" accuracy=""/>
                   <clock_output id="RMIICLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
-                  <clock_output id="RTC_CLKOUT.outFreq" value="32.768 kHz" locked="false" accuracy=""/>
                   <clock_output id="SDHCCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="System_clock.outFreq" value="120 MHz" locked="false" accuracy=""/>
                   <clock_output id="TRACECLKIN.outFreq" value="120 MHz" locked="false" accuracy=""/>

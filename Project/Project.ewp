@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
+
 <project>
   <fileVersion>2</fileVersion>
   <configuration>
@@ -229,15 +230,15 @@
         </option>
         <option>
           <name>CCDiagRemark</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagWarning</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagError</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCObjPrefix</name>
@@ -266,7 +267,7 @@
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -306,7 +307,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CompilerMisraOverride</name>
@@ -373,7 +374,7 @@
         </option>
         <option>
           <name>IccLang</name>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>IccCDialect</name>
@@ -464,15 +465,15 @@
         </option>
         <option>
           <name>AWarnOne</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange1</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>ADebug</name>
@@ -592,7 +593,7 @@
         </option>
         <option>
           <name>AExtraOptionsV2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AsmNoLiteralPool</name>
@@ -618,7 +619,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -634,8 +635,8 @@
       <name>CUSTOM</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <extensions/>
-        <cmdline/>
+        <extensions></extensions>
+        <cmdline></cmdline>
         <hasPrio>0</hasPrio>
       </data>
     </settings>
@@ -648,8 +649,8 @@
       <name>BUILDACTION</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <prebuild/>
-        <postbuild/>
+        <prebuild></prebuild>
+        <postbuild></postbuild>
       </data>
     </settings>
     <settings>
@@ -681,31 +682,31 @@
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySegment</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryAlign</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -741,7 +742,7 @@
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkEnableRemarks</name>
@@ -749,19 +750,19 @@
         </option>
         <option>
           <name>IlinkSuppressDiags</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsRem</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsWarn</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsErr</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkWarningsAreErrors</name>
@@ -773,7 +774,7 @@
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -785,7 +786,7 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
@@ -920,11 +921,11 @@
         </option>
         <option>
           <name>IlinkStackControlFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkStackCallGraphFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CrcAlgorithm</name>
@@ -946,7 +947,7 @@
         </option>
         <option>
           <name>IlinkIcfFile_AltDefault</name>
-          <state/>
+          <state></state>
         </option>
       </data>
     </settings>
@@ -959,7 +960,7 @@
         <debug>1</debug>
         <option>
           <name>IarchiveInputs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IarchiveOverride</name>
@@ -1205,15 +1206,15 @@
         </option>
         <option>
           <name>CCDiagRemark</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagWarning</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCDiagError</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCObjPrefix</name>
@@ -1242,7 +1243,7 @@
         </option>
         <option>
           <name>IExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CCLangConformance</name>
@@ -1282,7 +1283,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CompilerMisraOverride</name>
@@ -1440,15 +1441,15 @@
         </option>
         <option>
           <name>AWarnOne</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange1</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AWarnRange2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>ADebug</name>
@@ -1460,7 +1461,7 @@
         </option>
         <option>
           <name>ADefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AList</name>
@@ -1568,7 +1569,7 @@
         </option>
         <option>
           <name>AExtraOptionsV2</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>AsmNoLiteralPool</name>
@@ -1594,7 +1595,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1610,8 +1611,8 @@
       <name>CUSTOM</name>
       <archiveVersion>3</archiveVersion>
       <data>
-        <extensions/>
-        <cmdline/>
+        <extensions></extensions>
+        <cmdline></cmdline>
         <hasPrio>0</hasPrio>
       </data>
     </settings>
@@ -1624,8 +1625,8 @@
       <name>BUILDACTION</name>
       <archiveVersion>1</archiveVersion>
       <data>
-        <prebuild/>
-        <postbuild/>
+        <prebuild></prebuild>
+        <postbuild></postbuild>
       </data>
     </settings>
     <settings>
@@ -1657,31 +1658,31 @@
         </option>
         <option>
           <name>IlinkKeepSymbols</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySymbol</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinarySegment</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkRawBinaryAlign</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkConfigDefines</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkMapFile</name>
@@ -1717,7 +1718,7 @@
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkEnableRemarks</name>
@@ -1725,19 +1726,19 @@
         </option>
         <option>
           <name>IlinkSuppressDiags</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsRem</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsWarn</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkTreatAsErr</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkWarningsAreErrors</name>
@@ -1749,7 +1750,7 @@
         </option>
         <option>
           <name>IlinkExtraOptions</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkLowLevelInterfaceSlave</name>
@@ -1761,7 +1762,7 @@
         </option>
         <option>
           <name>IlinkAdditionalLibs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
@@ -1896,11 +1897,11 @@
         </option>
         <option>
           <name>IlinkStackControlFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IlinkStackCallGraphFile</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>CrcAlgorithm</name>
@@ -1922,7 +1923,7 @@
         </option>
         <option>
           <name>IlinkIcfFile_AltDefault</name>
-          <state/>
+          <state></state>
         </option>
       </data>
     </settings>
@@ -1935,7 +1936,7 @@
         <debug>0</debug>
         <option>
           <name>IarchiveInputs</name>
-          <state/>
+          <state></state>
         </option>
         <option>
           <name>IarchiveOverride</name>
@@ -1943,7 +1944,7 @@
         </option>
         <option>
           <name>IarchiveOutput</name>
-          <state/>
+          <state></state>
         </option>
       </data>
     </settings>
@@ -1973,7 +1974,7 @@
     <file>
       <name>$PROJ_DIR$\board\pin_mux.h</name>
     </file>
-  <file>
+    <file>
       <name>$PROJ_DIR$\board\RTE_Device.h</name>
     </file>
   </group>
@@ -2028,6 +2029,51 @@
   <group>
     <name>drivers</name>
     <file>
+      <name>$PROJ_DIR$\drivers\Driver_CAN.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_Common.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH_MAC.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH_PHY.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_Flash.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_I2C.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_MCI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_NAND.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_SAI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_SPI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USART.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USB.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USBD.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USBH.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\drivers\fsl_adc16.c</name>
     </file>
     <file>
@@ -2080,6 +2126,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_dspi.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_dspi_edma.c</name>
@@ -2140,6 +2192,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_i2c.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_i2c_edma.c</name>
@@ -2241,6 +2299,12 @@
       <name>$PROJ_DIR$\drivers\fsl_uart.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\drivers\fsl_uart_edma.c</name>
     </file>
     <file>
@@ -2257,69 +2321,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_wdog.h</name>
-    </file>
-  <file>
-      <name>$PROJ_DIR$\drivers\Driver_CAN.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_Common.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_ETH.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_ETH_MAC.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_ETH_PHY.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_Flash.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_I2C.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_MCI.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_NAND.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_SAI.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_SPI.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_USART.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_USB.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_USBD.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\Driver_USBH.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.h</name>
     </file>
   </group>
   <group>
@@ -2368,3 +2369,5 @@
     <name>$PROJ_DIR$\MK64FN1M0xxx12_flash.icf</name>
   </file>
 </project>
+
+

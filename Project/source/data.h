@@ -15,6 +15,7 @@ public:
   LED();
   void LED_init();
   void setColor(unsigned char R,unsigned char G,unsigned char B);
+  void setColor(bool R,bool G,bool B);
 private:
   gpio_pin_config_t LED_Config;
 };
@@ -25,6 +26,17 @@ public:
   button();
   void button_Init();
   void on_PushButton_Clicked();
+private:
+  gpio_pin_config_t button_Config;
+  
+};
+
+class check
+{
+public:
+  button();
+  void Car_Pass();              //光电管触发函数
+  void check_Init();            //中断等初始化函数
 private:
   gpio_pin_config_t button_Config;
 };

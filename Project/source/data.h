@@ -4,6 +4,7 @@
 #include "fsl_debug_console.h"
 #include "board.h"
 #include "fsl_rtc.h"
+#include "fsl_pit.h"
 
 #include "pin_mux.h"
 #include "clock_config.h"
@@ -43,11 +44,11 @@ public:
   void Car_Pass();              //光电管触发函数
   void check_Init();            //中断等初始化函数
 private:
-  gpio_pin_config_t button_Config;
+  gpio_pin_config_t Config;
 };
 
 extern check checkBase;
-/****RTC计时****/
+/****PIT计时****/
 typedef enum State
 {
   Running,
@@ -56,19 +57,20 @@ typedef enum State
   
   MAX_State
 } Clock_State;
-  
+
+typedef struct
+{
+ unsigned int second;
+ unsigned int M_Second;
+}time;
 
 class clock
 {
 public:
   clock();
-  void RTC_Init();
-  struct Time
-  {
-    int second;
-    int M_Second;
-  };
-  void GetCurrentTime();
+  void PITinit();
+  time GetCurrentTime();
+  void CurrentTimeAddMS(unsigned int MS);
   char Get_Current_State();
   void Set_Current_State(char State);
 private:
@@ -76,6 +78,8 @@ private:
   void start();
   void stop();
   char Current_State;
+  time Current_Time;
+  pit_config_t pitConfig;
   
 };
 
@@ -90,4 +94,4 @@ private:
 
 extern OLED OLEDBase;
 
-#endif __DATA_H__
+#endif

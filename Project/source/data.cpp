@@ -3,6 +3,7 @@
 #include "fsl_port.h"
 #include "fsl_common.h"
 #include "fsl_pit.h"
+#include "fsl_debug_console.h"
 
 /****实例化****/
 LED LEDBase;
@@ -26,6 +27,11 @@ void LED::LED_init()
 }
 
 void LED::setColor(unsigned char R,unsigned char G,unsigned char B)
+{
+  this->setColor((bool)R,(bool)G,(bool)B);
+}
+
+void LED::setColor(int R,int G,int B)
 {
   this->setColor((bool)R,(bool)G,(bool)B);
 }
@@ -57,6 +63,10 @@ void button::on_PushButton_Clicked()
 {
   if(clockBase.Get_Current_State()==Running)
   {
+    if(time(5,0)>clockBase.GetCurrentTime())
+    {
+      return;
+    }
     clockBase.Set_Current_State(Stop);
     LEDBase.setColor(true,false,false);
   }
@@ -91,6 +101,34 @@ void PORTA_IRQHandler()
 }
 
 /****时钟****/
+
+time::time(unsigned int S,unsigned int MS)
+{
+  this->second=S;
+  this->M_Second=MS;
+}
+
+time::time()
+{
+  this->second=0;
+  this->M_Second=0;
+}
+
+bool time::operator>(const time& Another) const
+{
+  if(this->second<Another.second)
+    return false;
+  else if(this->second>Another.second)
+    return true;
+  else
+  {
+    if(this->M_Second>Another.M_Second)
+      return true;
+    else
+      return false;
+  }
+}
+
 void PIT0_IRQHandler()
 {
   PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
@@ -141,7 +179,8 @@ void clock::Set_Current_State(char state)
   
 void clock::stop()
 {
-  PIT_StopTimer(PIT, kPIT_Chnl_0);
+  if(this->GetCurrentTime()>time(3,0))               //大于3秒才能停止
+    PIT_StopTimer(PIT, kPIT_Chnl_0);
 }
 
 void clock::start()
@@ -167,7 +206,10 @@ void PORTC_IRQHandler()
 {
   if(GPIO_GetPinsInterruptFlags(GPIOC)&(1<<6))
   {
-    if(clockBase.Get_Current_State()==Running)//TODO添加一个重载
+    
+    PRINTF("GET");
+    
+    if(clockBase.Get_Current_State()==Running)
       buttonBase.on_PushButton_Clicked();
     else if(clockBase.Get_Current_State()==Ready)
       buttonBase.on_PushButton_Clicked();

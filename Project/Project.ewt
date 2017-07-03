@@ -2334,6 +2334,9 @@
     <file>
       <name>$PROJ_DIR$\board\pin_mux.h</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\board\RTE_Device.h</name>
+    </file>
   </group>
   <group>
     <name>CMSIS</name>
@@ -2385,6 +2388,51 @@
   </group>
   <group>
     <name>drivers</name>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_CAN.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_Common.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH_MAC.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_ETH_PHY.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_Flash.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_I2C.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_MCI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_NAND.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_SAI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_SPI.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USART.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USB.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USBD.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\Driver_USBH.h</name>
+    </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_adc16.c</name>
     </file>
@@ -2438,6 +2486,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_dspi.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_dspi_cmsis.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_dspi_edma.c</name>
@@ -2498,6 +2552,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_i2c.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_i2c_cmsis.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\drivers\fsl_i2c_edma.c</name>
@@ -2599,6 +2659,12 @@
       <name>$PROJ_DIR$\drivers\fsl_uart.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\drivers\fsl_uart_cmsis.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\drivers\fsl_uart_edma.c</name>
     </file>
     <file>
@@ -2630,6 +2696,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\source\system.cpp</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\system.h</name>
     </file>
   </group>
   <group>

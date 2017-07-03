@@ -18,6 +18,7 @@ public:
   void LED_init();
   void setColor(unsigned char R,unsigned char G,unsigned char B);
   void setColor(bool R,bool G,bool B);
+  void setColor(int R,int G,int B);
 private:
   gpio_pin_config_t LED_Config;
 };
@@ -58,21 +59,29 @@ typedef enum State
   MAX_State
 } Clock_State;
 
-typedef struct
+struct time
 {
+public:
+ time(unsigned int S,unsigned int MS);
+ time();
  unsigned int second;
  unsigned int M_Second;
-}time;
+ 
+ bool operator >(const time& Another) const;
+};
+ 
 
 class clock
 {
 public:
   clock();
   void PITinit();
-  time GetCurrentTime();
+ time GetCurrentTime();
   void CurrentTimeAddMS(unsigned int MS);
   char Get_Current_State();
   void Set_Current_State(char State);
+  
+  
 private:
   void Check_Current_State();
   void start();

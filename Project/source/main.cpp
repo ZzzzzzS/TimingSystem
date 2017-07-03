@@ -5,6 +5,7 @@
 #include "board.h"
 #include "pin_mux.h"
 #include "clock_config.h"
+#include "system.h"
 
 /*!
  * @brief Application entry point.
@@ -14,6 +15,8 @@ int main(void) {
   BOARD_InitBootPins();
   BOARD_InitBootClocks();
   BOARD_InitDebugConsole();
+  
+  system_init();
 
   /* Add your code here */
 

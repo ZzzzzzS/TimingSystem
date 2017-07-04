@@ -3,6 +3,7 @@
 #include "fsl_port.h"
 #include "fsl_common.h"
 #include "fsl_pit.h"
+#include "board.h"
 #include "fsl_debug_console.h"
 
 /****实例化****/
@@ -54,9 +55,10 @@ button::button()
 
 void button::button_Init()
 {
-  PORT_SetPinInterruptConfig(PORTA,4,kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(PORTA,4U,kPORT_InterruptFallingEdge);
   EnableIRQ(PORTA_IRQn);
-  GPIO_PinInit(GPIOA,4,&button_Config);
+  GPIO_PinInit(GPIOA,4U,&button_Config);
+  PRINTF("OK");
 }
 
 void button::on_PushButton_Clicked()
@@ -90,16 +92,6 @@ void button::on_PushButton_Clicked()
   
 }
 
-void PORTA_IRQHandler()
-{
-  if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<4))
-  {
-    buttonBase.on_PushButton_Clicked();
-  }
-
-  GPIO_ClearPinsInterruptFlags(GPIOA,1<<4);
-}
-
 /****时钟****/
 
 time::time(unsigned int S,unsigned int MS)
@@ -129,16 +121,12 @@ bool time::operator>(const time& Another) const
   }
 }
 
-void PIT0_IRQHandler()
-{
-  PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-  clockBase.CurrentTimeAddMS(1);
-  //TODO刷新显示等，可以在另一个中断里实现
-}
+
 
 clock::clock()
 {
   PIT_GetDefaultConfig(&pitConfig);
+  this->Set_Current_State(Stop);
 }
 
 void clock::PITinit()

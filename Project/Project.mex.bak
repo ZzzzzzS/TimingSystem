@@ -64,6 +64,7 @@
             <function name="BOARD_InitButtons">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -98,9 +99,9 @@
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="slew_rate" value="fast"/>
                         <pin_feature name="open_drain" value="disable"/>
-                        <pin_feature name="drive_strength" value="low"/>
-                        <pin_feature name="pull_select" value="down"/>
-                        <pin_feature name="pull_enable" value="disable"/>
+                        <pin_feature name="drive_strength" value="high"/>
+                        <pin_feature name="pull_select" value="up"/>
+                        <pin_feature name="pull_enable" value="enable"/>
                         <pin_feature name="passive_filter" value="disable"/>
                      </pin_features>
                   </pin>
@@ -117,6 +118,7 @@
             <function name="BOARD_InitLEDs">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -172,6 +174,7 @@
             <function name="BOARD_InitDEBUG_UART">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -215,6 +218,7 @@
             <function name="BOARD_InitOSC">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -263,22 +267,7 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PinSignal" resourceId="RTC.EXTAL32" description="&apos;EXTAL32&apos; (Pins tool id: RTC.EXTAL32, Clocks tool id: RTC.EXTAL32) needs to be routed" problem_level="1" source="Clocks: BOARD_BootClockRUN">
-                     <feature name="routed" evaluation="">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PinSignal" resourceId="RTC.XTAL32" description="&apos;XTAL32&apos; (Pins tool id: RTC.XTAL32, Clocks tool id: RTC.XTAL32) needs to be routed" problem_level="1" source="Clocks: BOARD_BootClockRUN">
-                     <feature name="routed" evaluation="">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Clocks initialization requires the COMMON Driver in the project." problem_level="2" source="Clocks.BOARD_BootClockRUN">
-                     <feature name="enabled" evaluation="equal" configuration="core0">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.rtc" description="Clocks initialization requires the RTC Driver in the project." problem_level="2" source="Clocks.BOARD_BootClockRUN">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
                      </feature>
@@ -286,14 +275,12 @@
                </dependencies>
                <clock_sources>
                   <clock_source id="OSC.OSC.outFreq" value="50 MHz" locked="false" enabled="true"/>
-                  <clock_source id="RTC.RTC32kHz.outFreq" value="32.768 kHz" locked="false" enabled="true"/>
                </clock_sources>
                <clock_outputs>
                   <clock_output id="Bus_clock.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="CLKOUT.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="Core_clock.outFreq" value="120 MHz" locked="true" accuracy="0.001"/>
                   <clock_output id="ENET1588TSCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
-                  <clock_output id="ERCLK32K.outFreq" value="32.768 kHz" locked="false" accuracy=""/>
                   <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="FlexBus_clock.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="1 kHz" locked="false" accuracy=""/>
@@ -302,7 +289,6 @@
                   <clock_output id="OSCERCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="PLLFLLCLK.outFreq" value="120 MHz" locked="false" accuracy=""/>
                   <clock_output id="RMIICLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
-                  <clock_output id="RTC_CLKOUT.outFreq" value="32.768 kHz" locked="false" accuracy=""/>
                   <clock_output id="SDHCCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="System_clock.outFreq" value="120 MHz" locked="false" accuracy=""/>
                   <clock_output id="TRACECLKIN.outFreq" value="120 MHz" locked="false" accuracy=""/>
@@ -396,7 +382,42 @@
             <description></description>
             <options/>
             <dependencies/>
-            <component_set type="driver" selection="all"/>
+            <component_set type="driver" selection="custom">
+               <component>platform.drivers.vref</component>
+               <component>platform.drivers.llwu</component>
+               <component>platform.drivers.ftm</component>
+               <component>platform.drivers.rtc</component>
+               <component>platform.drivers.i2c</component>
+               <component>platform.drivers.pit</component>
+               <component>platform.drivers.clock</component>
+               <component>platform.drivers.dac</component>
+               <component>platform.drivers.sysmpu</component>
+               <component>platform.drivers.edma</component>
+               <component>platform.drivers.flexcan</component>
+               <component>platform.drivers.rcm</component>
+               <component>platform.drivers.port</component>
+               <component>platform.drivers.cmp</component>
+               <component>platform.drivers.dmamux</component>
+               <component>platform.drivers.smc</component>
+               <component>platform.drivers.cmt</component>
+               <component>platform.drivers.wdog</component>
+               <component>platform.drivers.ewm</component>
+               <component>platform.drivers.pdb</component>
+               <component>platform.drivers.uart</component>
+               <component>platform.drivers.dspi</component>
+               <component>platform.drivers.gpio</component>
+               <component>platform.drivers.lptmr</component>
+               <component>platform.drivers.pmc</component>
+               <component>platform.drivers.flexbus</component>
+               <component>platform.drivers.rnga</component>
+               <component>platform.drivers.enet</component>
+               <component>platform.drivers.flash</component>
+               <component>platform.drivers.sdhc</component>
+               <component>platform.drivers.sim</component>
+               <component>platform.drivers.sai</component>
+               <component>platform.drivers.crc</component>
+               <component>platform.drivers.common</component>
+            </component_set>
             <component_set type="utility" selection="all"/>
             <component_set type="CMSIS_driver" selection="all"/>
             <component_set type="unsupported" selection="none"/>

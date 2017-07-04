@@ -2072,12 +2072,8 @@
     <file>
       <name>$PROJ_DIR$\drivers\Driver_USBH.h</name>
     </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_adc16.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\drivers\fsl_adc16.h</name>
-    </file>
+    
+    
     <file>
       <name>$PROJ_DIR$\drivers\fsl_clock.c</name>
     </file>

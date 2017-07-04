@@ -22,6 +22,10 @@ board: FRDM-K64F
  *END**************************************************************************/
 void BOARD_InitBootPins(void) {
     BOARD_InitPins();
+    BOARD_InitButtons();
+    BOARD_InitLEDs();
+    BOARD_InitDEBUG_UART();
+    BOARD_InitOSC();
 }
 
 #define PIN0_IDX                         0u   /*!< Pin number for pin 0 in a port */
@@ -97,12 +101,12 @@ void BOARD_InitPins(void) {
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 BOARD_InitButtons:
-- options: {prefix: BOARD_, coreID: core0, enableClock: 'true'}
+- options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '78', peripheral: GPIOC, signal: 'GPIO, 6', pin_signal: CMP0_IN0/PTC6/LLWU_P10/SPI0_SOUT/PDB0_EXTRG/I2S0_RX_BCLK/FB_AD9/I2S0_MCLK, identifier: SW2,
     direction: INPUT, slew_rate: fast, open_drain: disable, drive_strength: low, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '38', peripheral: GPIOA, signal: 'GPIO, 4', pin_signal: PTA4/LLWU_P3/FTM0_CH1/NMI_b/EZP_CS_b, direction: INPUT, slew_rate: fast, open_drain: disable,
-    drive_strength: low, pull_select: down, pull_enable: disable, passive_filter: disable}
+    drive_strength: high, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '93', peripheral: GPIOD, signal: 'GPIO, 0', pin_signal: PTD0/LLWU_P12/SPI0_PCS0/UART2_RTS_b/FTM3_CH0/FB_ALE/FB_CS1_b/FB_TS_b}
   - {pin_num: '94', peripheral: GPIOD, signal: 'GPIO, 1', pin_signal: ADC0_SE5b/PTD1/SPI0_SCK/UART2_CTS_b/FTM3_CH1/FB_CS0_b}
   - {pin_num: '95', peripheral: GPIOD, signal: 'GPIO, 2', pin_signal: PTD2/LLWU_P13/SPI0_SOUT/UART2_RX/FTM3_CH2/FB_AD4/I2C0_SCL}
@@ -126,11 +130,11 @@ void BOARD_InitButtons(void) {
   CLOCK_EnableClock(kCLOCK_PortD);                           /* Port D Clock Gate Control: Clock enabled */
 
   const port_pin_config_t porta4_pin38_config = {
-    kPORT_PullDisable,                                       /* Internal pull-up/down resistor is disabled */
+    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
     kPORT_FastSlewRate,                                      /* Fast slew rate is configured */
     kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
     kPORT_OpenDrainDisable,                                  /* Open drain is disabled */
-    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
+    kPORT_HighDriveStrength,                                 /* High drive strength is configured */
     kPORT_MuxAsGpio,                                         /* Pin is configured as PTA4 */
     kPORT_UnlockRegister                                     /* Pin Control Register fields [15:0] are not locked */
   };
@@ -163,7 +167,7 @@ void BOARD_InitButtons(void) {
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 BOARD_InitLEDs:
-- options: {prefix: BOARD_, coreID: core0, enableClock: 'true'}
+- options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '67', peripheral: GPIOB, signal: 'GPIO, 21', pin_signal: PTB21/SPI2_SCK/FB_AD30/CMP1_OUT, direction: OUTPUT, slew_rate: slow, open_drain: disable, drive_strength: low,
     pull_select: down, pull_enable: disable, passive_filter: disable}
@@ -225,7 +229,7 @@ void BOARD_InitLEDs(void) {
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 BOARD_InitDEBUG_UART:
-- options: {prefix: BOARD_, coreID: core0, enableClock: 'true'}
+- options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '63', peripheral: UART0, signal: TX, pin_signal: PTB17/SPI1_SIN/UART0_TX/FTM_CLKIN1/FB_AD16/EWM_OUT_b, direction: OUTPUT, slew_rate: fast, open_drain: disable,
     drive_strength: low, pull_select: down, pull_enable: disable, passive_filter: disable}
@@ -275,7 +279,7 @@ void BOARD_InitDEBUG_UART(void) {
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 BOARD_InitOSC:
-- options: {prefix: BOARD_, coreID: core0, enableClock: 'true'}
+- options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '50', peripheral: OSC, signal: EXTAL0, pin_signal: EXTAL0/PTA18/FTM0_FLT2/FTM_CLKIN0, identifier: EXTAL0, slew_rate: no_init, open_drain: no_init, drive_strength: no_init,
     pull_select: no_init, pull_enable: no_init, passive_filter: no_init}

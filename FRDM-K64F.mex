@@ -64,6 +64,7 @@
             <function name="BOARD_InitButtons">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -98,9 +99,9 @@
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="slew_rate" value="fast"/>
                         <pin_feature name="open_drain" value="disable"/>
-                        <pin_feature name="drive_strength" value="low"/>
-                        <pin_feature name="pull_select" value="down"/>
-                        <pin_feature name="pull_enable" value="disable"/>
+                        <pin_feature name="drive_strength" value="no_init"/>
+                        <pin_feature name="pull_select" value="up"/>
+                        <pin_feature name="pull_enable" value="enable"/>
                         <pin_feature name="passive_filter" value="disable"/>
                      </pin_features>
                   </pin>
@@ -117,6 +118,7 @@
             <function name="BOARD_InitLEDs">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -172,6 +174,7 @@
             <function name="BOARD_InitDEBUG_UART">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -215,6 +218,7 @@
             <function name="BOARD_InitOSC">
                <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
                <options>
+                  <callFromInitBoot>true</callFromInitBoot>
                   <prefix>BOARD_</prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
@@ -378,7 +382,42 @@
             <description></description>
             <options/>
             <dependencies/>
-            <component_set type="driver" selection="all"/>
+            <component_set type="driver" selection="custom">
+               <component>platform.drivers.vref</component>
+               <component>platform.drivers.llwu</component>
+               <component>platform.drivers.ftm</component>
+               <component>platform.drivers.rtc</component>
+               <component>platform.drivers.i2c</component>
+               <component>platform.drivers.pit</component>
+               <component>platform.drivers.clock</component>
+               <component>platform.drivers.dac</component>
+               <component>platform.drivers.sysmpu</component>
+               <component>platform.drivers.edma</component>
+               <component>platform.drivers.flexcan</component>
+               <component>platform.drivers.rcm</component>
+               <component>platform.drivers.port</component>
+               <component>platform.drivers.cmp</component>
+               <component>platform.drivers.dmamux</component>
+               <component>platform.drivers.smc</component>
+               <component>platform.drivers.cmt</component>
+               <component>platform.drivers.wdog</component>
+               <component>platform.drivers.ewm</component>
+               <component>platform.drivers.pdb</component>
+               <component>platform.drivers.uart</component>
+               <component>platform.drivers.dspi</component>
+               <component>platform.drivers.gpio</component>
+               <component>platform.drivers.lptmr</component>
+               <component>platform.drivers.pmc</component>
+               <component>platform.drivers.flexbus</component>
+               <component>platform.drivers.rnga</component>
+               <component>platform.drivers.enet</component>
+               <component>platform.drivers.flash</component>
+               <component>platform.drivers.sdhc</component>
+               <component>platform.drivers.sim</component>
+               <component>platform.drivers.sai</component>
+               <component>platform.drivers.crc</component>
+               <component>platform.drivers.common</component>
+            </component_set>
             <component_set type="utility" selection="all"/>
             <component_set type="CMSIS_driver" selection="all"/>
             <component_set type="unsupported" selection="none"/>

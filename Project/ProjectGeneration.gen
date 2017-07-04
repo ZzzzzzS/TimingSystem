@@ -50,8 +50,6 @@
       <sdk_file rel_prj_file_path="drivers/Driver_USB.h" rel_src_file_path="CMSIS/Driver/Include/Driver_USB.h"/>
       <sdk_file rel_prj_file_path="drivers/Driver_USBD.h" rel_src_file_path="CMSIS/Driver/Include/Driver_USBD.h"/>
       <sdk_file rel_prj_file_path="drivers/Driver_USBH.h" rel_src_file_path="CMSIS/Driver/Include/Driver_USBH.h"/>
-      <sdk_file rel_prj_file_path="drivers/fsl_adc16.c" rel_src_file_path="devices/MK64F12/drivers/fsl_adc16.c"/>
-      <sdk_file rel_prj_file_path="drivers/fsl_adc16.h" rel_src_file_path="devices/MK64F12/drivers/fsl_adc16.h"/>
       <sdk_file rel_prj_file_path="drivers/fsl_clock.c" rel_src_file_path="devices/MK64F12/drivers/fsl_clock.c"/>
       <sdk_file rel_prj_file_path="drivers/fsl_clock.h" rel_src_file_path="devices/MK64F12/drivers/fsl_clock.h"/>
       <sdk_file rel_prj_file_path="drivers/fsl_cmp.c" rel_src_file_path="devices/MK64F12/drivers/fsl_cmp.c"/>

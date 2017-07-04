@@ -109,7 +109,7 @@ BOARD_InitButtons:
 - options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '78', peripheral: GPIOC, signal: 'GPIO, 6', pin_signal: CMP0_IN0/PTC6/LLWU_P10/SPI0_SOUT/PDB0_EXTRG/I2S0_RX_BCLK/FB_AD9/I2S0_MCLK, identifier: SW2,
-    direction: INPUT, slew_rate: fast, open_drain: disable, drive_strength: low, pull_select: up, pull_enable: enable, passive_filter: disable}
+    direction: INPUT, slew_rate: fast, open_drain: disable, drive_strength: no_init, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '38', peripheral: GPIOA, signal: 'GPIO, 4', pin_signal: PTA4/LLWU_P3/FTM0_CH1/NMI_b/EZP_CS_b, direction: INPUT, slew_rate: fast, open_drain: disable,
     drive_strength: no_init, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '93', peripheral: GPIOD, signal: 'GPIO, 0', pin_signal: PTD0/LLWU_P12/SPI0_PCS0/UART2_RTS_b/FTM3_CH0/FB_ALE/FB_CS1_b/FB_TS_b}
@@ -143,16 +143,15 @@ void BOARD_InitButtons(void) {
       | PORT_PCR_PFE(PCR_PFE_DISABLED)                       /* Passive Filter Enable: Passive input filter is disabled on the corresponding pin. */
       | PORT_PCR_ODE(PCR_ODE_DISABLED)                       /* Open Drain Enable: Open drain output is disabled on the corresponding pin. */
     );
-  const port_pin_config_t portc6_pin78_config = {
-    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
-    kPORT_FastSlewRate,                                      /* Fast slew rate is configured */
-    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
-    kPORT_OpenDrainDisable,                                  /* Open drain is disabled */
-    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
-    kPORT_MuxAsGpio,                                         /* Pin is configured as PTC6 */
-    kPORT_UnlockRegister                                     /* Pin Control Register fields [15:0] are not locked */
-  };
-  PORT_SetPinConfig(PORTC, PIN6_IDX, &portc6_pin78_config);  /* PORTC6 (pin 78) is configured as PTC6 */
+  PORT_SetPinMux(PORTC, PIN6_IDX, kPORT_MuxAsGpio);          /* PORTC6 (pin 78) is configured as PTC6 */
+  PORTC->PCR[6] = ((PORTC->PCR[6] &
+    (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_SRE_MASK | PORT_PCR_PFE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_ISF_MASK))) /* Mask bits to zero which are setting */
+      | PORT_PCR_PS(PCR_PS_UP)                               /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the corresponding PE field is set. */
+      | PORT_PCR_PE(PCR_PE_ENABLED)                          /* Pull Enable: Internal pullup or pulldown resistor is enabled on the corresponding pin, if the pin is configured as a digital input. */
+      | PORT_PCR_SRE(PCR_SRE_FAST)                           /* Slew Rate Enable: Fast slew rate is configured on the corresponding pin, if the pin is configured as a digital output. */
+      | PORT_PCR_PFE(PCR_PFE_DISABLED)                       /* Passive Filter Enable: Passive input filter is disabled on the corresponding pin. */
+      | PORT_PCR_ODE(PCR_ODE_DISABLED)                       /* Open Drain Enable: Open drain output is disabled on the corresponding pin. */
+    );
   PORT_SetPinMux(PORTD, PIN0_IDX, kPORT_MuxAsGpio);          /* PORTD0 (pin 93) is configured as PTD0 */
   PORT_SetPinMux(PORTD, PIN1_IDX, kPORT_MuxAsGpio);          /* PORTD1 (pin 94) is configured as PTD1 */
   PORT_SetPinMux(PORTD, PIN2_IDX, kPORT_MuxAsGpio);          /* PORTD2 (pin 95) is configured as PTD2 */

@@ -99,7 +99,7 @@
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="slew_rate" value="fast"/>
                         <pin_feature name="open_drain" value="disable"/>
-                        <pin_feature name="drive_strength" value="high"/>
+                        <pin_feature name="drive_strength" value="no_init"/>
                         <pin_feature name="pull_select" value="up"/>
                         <pin_feature name="pull_enable" value="enable"/>
                         <pin_feature name="passive_filter" value="disable"/>

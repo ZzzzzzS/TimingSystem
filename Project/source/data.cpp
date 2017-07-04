@@ -203,9 +203,6 @@ time clock::GetCurrentTime()
 
 /****¼ì²â****/
 
-
-
-
 check::check()
 {
   this->Config.outputLogic=0;

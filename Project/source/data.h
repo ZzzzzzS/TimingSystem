@@ -11,8 +11,6 @@
 #include "fsl_gpio.h"
 
 /****µ∆π‚Ã· æ****/
-
-extern void PORTA_IRQHandler();
 class LED
 {
 public:

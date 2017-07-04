@@ -22,7 +22,7 @@ PrevWtdReset=Custom
 [ArmDriver]
 EnableCache=1
 [DebugChecksum]
-Checksum=-1540477366
+Checksum=-1806870674
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -70,10 +70,6 @@ EventEXC=0
 EventFOLD=0
 EventLSU=0
 EventSLEEP=0
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Count=0
 [DriverProfiling]
 Enabled=0
 Mode=2
@@ -91,6 +87,10 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
 [Aliases]
 Count=0
 SuppressDialog=0

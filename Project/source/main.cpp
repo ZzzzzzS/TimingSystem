@@ -12,19 +12,6 @@
  * @brief Application entry point.
  */
    
-void PIT0_IRQHandler()
-{
-  PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-  clockBase.CurrentTimeAddMS(10);
-  //TODO刷新显示等，可以在另一个中断里实现
-}
-
-void PORTA_IRQHandler()
-{
-  GPIO_ClearPinsInterruptFlags(GPIOA, 1U << 4);
-  LEDBase.setColor(0,0,1);
-}
-
 
 int main(void) {
   /* Init board hardware. */

@@ -20,6 +20,7 @@ int main(void) {
   BOARD_InitDebugConsole();
   
   system_init();
+  PRINTF("CODE BY ZZS\nPOWERED BY NXP XPRESSO\n");
   while(true)
   {
     System_RunTime_Update();

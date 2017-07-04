@@ -10,12 +10,83 @@ LimitSize=0
 ByteLimit=50
 [PlDriver]
 MemConfigValue=D:\ProgramFiles\iar\arm\CONFIG\debugger\NXP\MK64FN1M0xxx12.ddf
+FirstRun=0
 [Jet]
 DisableInterrupts=0
 LeaveRunning=0
 MultiCoreRunAll=0
+JetConnSerialNo=97969900
+JetConnFoundProbes=
+OnlineReset=Software
+PrevWtdReset=Custom
 [ArmDriver]
 EnableCache=1
+[DebugChecksum]
+Checksum=1582863482
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CodeCoverage]
+Enabled=_ 0
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[SWOManager]
+SamplingDivider=8192
+OverrideClock=0
+CpuClock=0
+SwoClock=0
+DataLogMode=0
+ItmPortsEnabled=63
+ItmTermIOPorts=1
+ItmLogPorts=0
+ItmLogFile=$PROJ_DIR$\ITM.log
+PowerForcePC=1
+PowerConnectPC=1
+[Trace1]
+Enabled=0
+ShowSource=1
+[ETMTraceWindow]
+PortWidth=4
+PortMode=0
+CaptureDataValues=0
+CaptureDataAddresses=0
+CaptureDataRange=0
+DataFirst=0
+DataLast=-1
+StopWhen=0
+StallCPU=0
+NoPCCapture=0
+[Trace2]
+Enabled=0
+ShowSource=0
+[SWOTraceWindow]
+ForcedPcSampling=0
+ForcedInterruptLogs=0
+ForcedItmLogs=0
+EventCPI=0
+EventEXC=0
+EventFOLD=0
+EventLSU=0
+EventSLEEP=0
+[DriverProfiling]
+Enabled=0
+Mode=2
+Graph=0
+Symbiont=0
+Exclusions=
+[CallStackLog]
+Enabled=0
+[CallStackStripe]
+ShowTiming=1
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Disassemble mode]
 mode=0
 [Breakpoints2]

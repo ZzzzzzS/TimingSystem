@@ -15,7 +15,7 @@ OLED OLEDBase;
 /******LEDµÆº¯Êý******/
 LED::LED()
 {
-  this->LED_Config.outputLogic=0;
+  this->LED_Config.outputLogic=1;
   this->LED_Config.pinDirection=kGPIO_DigitalOutput;
 }
 
@@ -38,9 +38,9 @@ void LED::setColor(int R,int G,int B)
 
 void LED::setColor(bool R,bool G,bool B)
 {
-  GPIO_WritePinOutput(GPIOB,21,B);
-  GPIO_WritePinOutput(GPIOB,22,R);
-  GPIO_WritePinOutput(GPIOE,26,G);
+  GPIO_WritePinOutput(GPIOB,21,!B);
+  GPIO_WritePinOutput(GPIOB,22,!R);
+  GPIO_WritePinOutput(GPIOE,26,!G);
 }
 
 

@@ -22,6 +22,10 @@ board: FRDM-K64F
  *END**************************************************************************/
 void BOARD_InitBootPins(void) {
     BOARD_InitPins();
+    BOARD_InitLEDs();
+    BOARD_InitButtons();
+    BOARD_InitDEBUG_UART();
+    BOARD_InitOSC();
 }
 
 #define PIN0_IDX                         0u   /*!< Pin number for pin 0 in a port */

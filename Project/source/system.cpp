@@ -3,8 +3,8 @@
 
 void system_init()
 {
-  clockBase.PITinit();
+  //clockBase.PITinit();
   LEDBase.LED_init();
-  checkBase.check_Init();
-  buttonBase.button_Init();
+  //checkBase.check_Init();
+  //buttonBase.button_Init();
 }

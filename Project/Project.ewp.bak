@@ -2337,6 +2337,9 @@
     <file>
       <name>$PROJ_DIR$\source\system.cpp</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\source\system.h</name>
+    </file>
   </group>
   <group>
     <name>startup</name>

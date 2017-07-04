@@ -41,6 +41,7 @@
  * @return The PIT instance
  */
 static uint32_t PIT_GetInstance(PIT_Type *base);
+#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_BusClk)
 
 /*******************************************************************************
  * Variables

@@ -78,9 +78,9 @@ public:
   void PITinit();
  time GetCurrentTime();
   void CurrentTimeAddMS(unsigned int MS);
+  void SetCurrentTime(time set);
   char Get_Current_State();
   void Set_Current_State(char State);
-  
   
 private:
   void Check_Current_State();

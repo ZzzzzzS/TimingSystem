@@ -28,6 +28,6 @@ void PIT0_IRQHandler()
 void PORTA_IRQHandler()
 {
   GPIO_ClearPinsInterruptFlags(GPIOA, 1U << 4);
-  LEDBase.setColor(0,0,1);
+  buttonBase.on_PushButton_Clicked();
 }
 }

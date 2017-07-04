@@ -70,19 +70,18 @@ void button::on_PushButton_Clicked()
       return;
     }
     clockBase.Set_Current_State(Stop);
-    LEDBase.setColor(true,false,false);
   }
   
   else if(clockBase.Get_Current_State()==Stop)
   {
     clockBase.Set_Current_State(Ready);
-    LEDBase.setColor(true,true,false);
+    clockBase.SetCurrentTime(time(0,0));
+    
   }
   
   else if(clockBase.Get_Current_State()==Ready)
   {
     clockBase.Set_Current_State(Running);
-    LEDBase.setColor(false,true,false);
   }
   else
   {
@@ -122,7 +121,6 @@ bool time::operator>(const time& Another) const
 }
 
 
-
 clock::clock()
 {
   PIT_GetDefaultConfig(&pitConfig);
@@ -132,7 +130,7 @@ clock::clock()
 void clock::PITinit()
 {
   PIT_Init(PIT,&pitConfig);//初始化PIT时钟
-  PIT_SetTimerPeriod(PIT, kPIT_Chnl_0, USEC_TO_COUNT(1000U, CLOCK_GetFreq(kCLOCK_BusClk)));//设置周期
+  PIT_SetTimerPeriod(PIT, kPIT_Chnl_0, USEC_TO_COUNT(10000U, CLOCK_GetFreq(kCLOCK_BusClk)));//设置周期
   PIT_EnableInterrupts(PIT, kPIT_Chnl_0, kPIT_TimerInterruptEnable);//允许PIT定时器中断
   EnableIRQ(PIT0_IRQn);//允许中断
   PIT_StopTimer(PIT, kPIT_Chnl_0);//先停止计时
@@ -144,14 +142,29 @@ char clock::Get_Current_State()
   return this->Current_State;
 }
 
+void clock::SetCurrentTime(time set)
+{
+  this->Current_Time.second=set.second;
+  this->Current_Time.M_Second=set.M_Second;
+}
+
 void clock::Check_Current_State()
 {
   if(this->Current_State==Stop)
+  {
+    LEDBase.setColor(true,false,false);
     this->stop();
+  }
   else if(this->Current_State==Ready)
+  {
+    LEDBase.setColor(true,true,false);
     this->stop();
+  }
   else if(this->Current_State==Running)
+  {
     this->start();
+    LEDBase.setColor(false,true,false);
+  }
   else
   {
     this->stop();

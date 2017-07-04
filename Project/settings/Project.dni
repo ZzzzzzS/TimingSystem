@@ -22,7 +22,7 @@ PrevWtdReset=Custom
 [ArmDriver]
 EnableCache=1
 [DebugChecksum]
-Checksum=-1806870674
+Checksum=1998899742
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

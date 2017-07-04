@@ -20,10 +20,9 @@ int main(void) {
   BOARD_InitDebugConsole();
   
   system_init();
-  LEDBase.setColor(true,false,false);
   while(true)
   {
-    //System_RunTime_Update();
+    System_RunTime_Update();
   }
 
   /* Add your code here */

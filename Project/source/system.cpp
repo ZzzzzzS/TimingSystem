@@ -12,7 +12,10 @@ void system_init()
 
 void System_RunTime_Update()
 {
+  if(clockBase.Get_Current_State()==Running)
+  {
   time temp;
   temp=clockBase.GetCurrentTime();
-  PRINTF("current time:%d\n",temp.second);
+  PRINTF("current time:%d %03d\n",temp.second,temp.M_Second);
+  }
 }

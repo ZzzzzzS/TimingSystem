@@ -70,6 +70,7 @@ void button::on_PushButton_Clicked()
       return;
     }
     clockBase.Set_Current_State(Stop);
+    
   }
   
   else if(clockBase.Get_Current_State()==Stop)
@@ -81,6 +82,11 @@ void button::on_PushButton_Clicked()
   
   else if(clockBase.Get_Current_State()==Ready)
   {
+    OLEDBase.OLED_Init();
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
     clockBase.Set_Current_State(Running);
   }
   else

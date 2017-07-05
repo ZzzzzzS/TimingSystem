@@ -59,6 +59,27 @@
                   <pin peripheral="SPI0" signal="SCK" pin_num="94" pin_signal="ADC0_SE5b/PTD1/SPI0_SCK/UART2_CTS_b/FTM3_CH1/FB_CS0_b"/>
                   <pin peripheral="SPI0" signal="SIN" pin_num="47" pin_signal="ADC1_SE17/PTA17/SPI0_SIN/UART0_RTS_b/RMII0_TXD1/MII0_TXD1/I2S0_MCLK"/>
                   <pin peripheral="SPI0" signal="SOUT" pin_num="78" pin_signal="CMP0_IN0/PTC6/LLWU_P10/SPI0_SOUT/PDB0_EXTRG/I2S0_RX_BCLK/FB_AD9/I2S0_MCLK"/>
+                  <pin peripheral="GPIOB" signal="GPIO, 2" pin_num="55" pin_signal="ADC0_SE12/PTB2/I2C0_SCL/UART0_RTS_b/ENET0_1588_TMR0/FTM0_FLT3">
+                     <pin_features>
+                        <pin_feature name="identifier" value=""/>
+                        <pin_feature name="drive_strength" value="high"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOB" signal="GPIO, 3" pin_num="56" pin_signal="ADC0_SE13/PTB3/I2C0_SDA/UART0_CTS_b/UART0_COL_b/ENET0_1588_TMR1/FTM0_FLT0">
+                     <pin_features>
+                        <pin_feature name="drive_strength" value="high"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOB" signal="GPIO, 10" pin_num="58" pin_signal="ADC1_SE14/PTB10/SPI1_PCS0/UART3_RX/FB_AD19/FTM0_FLT1">
+                     <pin_features>
+                        <pin_feature name="drive_strength" value="high"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIOB" signal="GPIO, 11" pin_num="59" pin_signal="ADC1_SE15/PTB11/SPI1_SCK/UART3_TX/FB_AD18/FTM0_FLT2">
+                     <pin_features>
+                        <pin_feature name="drive_strength" value="high"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
             <function name="BOARD_InitButtons">

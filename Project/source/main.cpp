@@ -20,6 +20,8 @@ int main(void) {
   BOARD_InitDebugConsole();
   
   system_init();
+  OLEDBase.OLED_Print(1,4,"Powered by ZZS");
+  
   while(true)
   {
     System_RunTime_Update();

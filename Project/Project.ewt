@@ -2692,6 +2692,12 @@
       <name>$PROJ_DIR$\source\main.cpp</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\source\OLED.cpp</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\OLED.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\source\system.cpp</name>
     </file>
     <file>

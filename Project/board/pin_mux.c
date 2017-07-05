@@ -28,11 +28,14 @@ void BOARD_InitBootPins(void) {
     BOARD_InitOSC();
 }
 
+#define PCR_DSE_HIGH                  0x01u   /*!< Drive Strength Enable: High drive strength is configured on the corresponding pin, if pin is configured as a digital output. */
 #define PIN0_IDX                         0u   /*!< Pin number for pin 0 in a port */
 #define PIN1_IDX                         1u   /*!< Pin number for pin 1 in a port */
 #define PIN2_IDX                         2u   /*!< Pin number for pin 2 in a port */
 #define PIN3_IDX                         3u   /*!< Pin number for pin 3 in a port */
 #define PIN6_IDX                         6u   /*!< Pin number for pin 6 in a port */
+#define PIN10_IDX                       10u   /*!< Pin number for pin 10 in a port */
+#define PIN11_IDX                       11u   /*!< Pin number for pin 11 in a port */
 #define PIN14_IDX                       14u   /*!< Pin number for pin 14 in a port */
 #define PIN17_IDX                       17u   /*!< Pin number for pin 17 in a port */
 #define PIN23_IDX                       23u   /*!< Pin number for pin 23 in a port */
@@ -55,6 +58,10 @@ BOARD_InitPins:
   - {pin_num: '94', peripheral: SPI0, signal: SCK, pin_signal: ADC0_SE5b/PTD1/SPI0_SCK/UART2_CTS_b/FTM3_CH1/FB_CS0_b}
   - {pin_num: '47', peripheral: SPI0, signal: SIN, pin_signal: ADC1_SE17/PTA17/SPI0_SIN/UART0_RTS_b/RMII0_TXD1/MII0_TXD1/I2S0_MCLK}
   - {pin_num: '78', peripheral: SPI0, signal: SOUT, pin_signal: CMP0_IN0/PTC6/LLWU_P10/SPI0_SOUT/PDB0_EXTRG/I2S0_RX_BCLK/FB_AD9/I2S0_MCLK}
+  - {pin_num: '55', peripheral: GPIOB, signal: 'GPIO, 2', pin_signal: ADC0_SE12/PTB2/I2C0_SCL/UART0_RTS_b/ENET0_1588_TMR0/FTM0_FLT3, identifier: '', drive_strength: high}
+  - {pin_num: '56', peripheral: GPIOB, signal: 'GPIO, 3', pin_signal: ADC0_SE13/PTB3/I2C0_SDA/UART0_CTS_b/UART0_COL_b/ENET0_1588_TMR1/FTM0_FLT0, drive_strength: high}
+  - {pin_num: '58', peripheral: GPIOB, signal: 'GPIO, 10', pin_signal: ADC1_SE14/PTB10/SPI1_PCS0/UART3_RX/FB_AD19/FTM0_FLT1, drive_strength: high}
+  - {pin_num: '59', peripheral: GPIOB, signal: 'GPIO, 11', pin_signal: ADC1_SE15/PTB11/SPI1_SCK/UART3_TX/FB_AD18/FTM0_FLT2, drive_strength: high}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -73,7 +80,27 @@ void BOARD_InitPins(void) {
 
   PORT_SetPinMux(PORTA, PIN14_IDX, kPORT_MuxAlt2);           /* PORTA14 (pin 44) is configured as SPI0_PCS0 */
   PORT_SetPinMux(PORTA, PIN17_IDX, kPORT_MuxAlt2);           /* PORTA17 (pin 47) is configured as SPI0_SIN */
+  PORT_SetPinMux(PORTB, PIN10_IDX, kPORT_MuxAsGpio);         /* PORTB10 (pin 58) is configured as PTB10 */
+  PORTB->PCR[10] = ((PORTB->PCR[10] &
+    (~(PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))              /* Mask bits to zero which are setting */
+      | PORT_PCR_DSE(PCR_DSE_HIGH)                           /* Drive Strength Enable: High drive strength is configured on the corresponding pin, if pin is configured as a digital output. */
+    );
+  PORT_SetPinMux(PORTB, PIN11_IDX, kPORT_MuxAsGpio);         /* PORTB11 (pin 59) is configured as PTB11 */
+  PORTB->PCR[11] = ((PORTB->PCR[11] &
+    (~(PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))              /* Mask bits to zero which are setting */
+      | PORT_PCR_DSE(PCR_DSE_HIGH)                           /* Drive Strength Enable: High drive strength is configured on the corresponding pin, if pin is configured as a digital output. */
+    );
+  PORT_SetPinMux(PORTB, PIN2_IDX, kPORT_MuxAsGpio);          /* PORTB2 (pin 55) is configured as PTB2 */
+  PORTB->PCR[2] = ((PORTB->PCR[2] &
+    (~(PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))              /* Mask bits to zero which are setting */
+      | PORT_PCR_DSE(PCR_DSE_HIGH)                           /* Drive Strength Enable: High drive strength is configured on the corresponding pin, if pin is configured as a digital output. */
+    );
   PORT_SetPinMux(PORTB, PIN23_IDX, kPORT_MuxAlt3);           /* PORTB23 (pin 69) is configured as SPI0_PCS5 */
+  PORT_SetPinMux(PORTB, PIN3_IDX, kPORT_MuxAsGpio);          /* PORTB3 (pin 56) is configured as PTB3 */
+  PORTB->PCR[3] = ((PORTB->PCR[3] &
+    (~(PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))              /* Mask bits to zero which are setting */
+      | PORT_PCR_DSE(PCR_DSE_HIGH)                           /* Drive Strength Enable: High drive strength is configured on the corresponding pin, if pin is configured as a digital output. */
+    );
   PORT_SetPinMux(PORTC, PIN0_IDX, kPORT_MuxAlt2);            /* PORTC0 (pin 70) is configured as SPI0_PCS4 */
   PORT_SetPinMux(PORTC, PIN1_IDX, kPORT_MuxAlt2);            /* PORTC1 (pin 71) is configured as SPI0_PCS3 */
   PORT_SetPinMux(PORTC, PIN2_IDX, kPORT_MuxAlt2);            /* PORTC2 (pin 72) is configured as SPI0_PCS2 */
@@ -109,7 +136,7 @@ BOARD_InitButtons:
 - options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '78', peripheral: GPIOC, signal: 'GPIO, 6', pin_signal: CMP0_IN0/PTC6/LLWU_P10/SPI0_SOUT/PDB0_EXTRG/I2S0_RX_BCLK/FB_AD9/I2S0_MCLK, identifier: SW2,
-    direction: INPUT, slew_rate: fast, open_drain: disable, drive_strength: low, pull_select: up, pull_enable: enable, passive_filter: disable}
+    direction: INPUT, slew_rate: fast, open_drain: disable, drive_strength: no_init, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '38', peripheral: GPIOA, signal: 'GPIO, 4', pin_signal: PTA4/LLWU_P3/FTM0_CH1/NMI_b/EZP_CS_b, direction: INPUT, slew_rate: fast, open_drain: disable,
     drive_strength: no_init, pull_select: up, pull_enable: enable, passive_filter: disable}
   - {pin_num: '93', peripheral: GPIOD, signal: 'GPIO, 0', pin_signal: PTD0/LLWU_P12/SPI0_PCS0/UART2_RTS_b/FTM3_CH0/FB_ALE/FB_CS1_b/FB_TS_b}
@@ -143,16 +170,15 @@ void BOARD_InitButtons(void) {
       | PORT_PCR_PFE(PCR_PFE_DISABLED)                       /* Passive Filter Enable: Passive input filter is disabled on the corresponding pin. */
       | PORT_PCR_ODE(PCR_ODE_DISABLED)                       /* Open Drain Enable: Open drain output is disabled on the corresponding pin. */
     );
-  const port_pin_config_t portc6_pin78_config = {
-    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
-    kPORT_FastSlewRate,                                      /* Fast slew rate is configured */
-    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
-    kPORT_OpenDrainDisable,                                  /* Open drain is disabled */
-    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
-    kPORT_MuxAsGpio,                                         /* Pin is configured as PTC6 */
-    kPORT_UnlockRegister                                     /* Pin Control Register fields [15:0] are not locked */
-  };
-  PORT_SetPinConfig(PORTC, PIN6_IDX, &portc6_pin78_config);  /* PORTC6 (pin 78) is configured as PTC6 */
+  PORT_SetPinMux(PORTC, PIN6_IDX, kPORT_MuxAsGpio);          /* PORTC6 (pin 78) is configured as PTC6 */
+  PORTC->PCR[6] = ((PORTC->PCR[6] &
+    (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_SRE_MASK | PORT_PCR_PFE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_ISF_MASK))) /* Mask bits to zero which are setting */
+      | PORT_PCR_PS(PCR_PS_UP)                               /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the corresponding PE field is set. */
+      | PORT_PCR_PE(PCR_PE_ENABLED)                          /* Pull Enable: Internal pullup or pulldown resistor is enabled on the corresponding pin, if the pin is configured as a digital input. */
+      | PORT_PCR_SRE(PCR_SRE_FAST)                           /* Slew Rate Enable: Fast slew rate is configured on the corresponding pin, if the pin is configured as a digital output. */
+      | PORT_PCR_PFE(PCR_PFE_DISABLED)                       /* Passive Filter Enable: Passive input filter is disabled on the corresponding pin. */
+      | PORT_PCR_ODE(PCR_ODE_DISABLED)                       /* Open Drain Enable: Open drain output is disabled on the corresponding pin. */
+    );
   PORT_SetPinMux(PORTD, PIN0_IDX, kPORT_MuxAsGpio);          /* PORTD0 (pin 93) is configured as PTD0 */
   PORT_SetPinMux(PORTD, PIN1_IDX, kPORT_MuxAsGpio);          /* PORTD1 (pin 94) is configured as PTD1 */
   PORT_SetPinMux(PORTD, PIN2_IDX, kPORT_MuxAsGpio);          /* PORTD2 (pin 95) is configured as PTD2 */

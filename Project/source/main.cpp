@@ -20,7 +20,7 @@ int main(void) {
   BOARD_InitDebugConsole();
   
   system_init();
-  PRINTF("CODE BY ZZS\nPOWERED BY NXP XPRESSO\n");
+  OLEDBase.OLED_Print(1,4,"Powered by ZZS");
   while(true)
   {
     System_RunTime_Update();

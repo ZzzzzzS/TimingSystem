@@ -9,6 +9,7 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "fsl_gpio.h"
+#include "OLED.h"
 
 /****灯光提示****/
 class LED
@@ -93,13 +94,6 @@ private:
 };
 
 extern clock clockBase;
-
-/****OLED显示****/
-class OLED
-{
-public:
-private:
-};
 
 extern OLED OLEDBase;
 

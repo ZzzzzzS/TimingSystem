@@ -10,6 +10,7 @@
 #include "clock_config.h"
 #include "fsl_gpio.h"
 #include "OLED.h"
+#include "fsl_uart.h"
 
 /****µ∆π‚Ã· æ****/
 class LED
@@ -92,8 +93,8 @@ private:
   pit_config_t pitConfig;
   
 };
-
 extern clock clockBase;
+
 
 extern OLED OLEDBase;
 

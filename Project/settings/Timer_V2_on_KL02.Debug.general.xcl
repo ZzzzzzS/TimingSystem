@@ -1,0 +1,15 @@
+"D:\ProgramFiles\iar\arm\bin\armproc.dll" 
+
+"D:\ProgramFiles\iar\arm\bin\armpemicro.dll" 
+
+"D:\m1899\×ÀÃæ\Timer_V2_on_KL02\debug\cppproject_templates.out" 
+
+--plugin "D:\ProgramFiles\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\ProgramFiles\iar\arm\config\debugger\NXP\KLxx.dmac" 
+
+--flash_loader "D:\ProgramFiles\iar\arm\config\flashloader\NXP\FlashKLxx32K.board" 
+
+
+
+

@@ -3,14 +3,12 @@
 
 #include "fsl_debug_console.h"
 #include "board.h"
-#include "fsl_rtc.h"
-#include "fsl_pit.h"
 
 #include "pin_mux.h"
 #include "clock_config.h"
+#include "fsl_lptmr.h"
 #include "fsl_gpio.h"
 #include "OLED.h"
-#include "fsl_uart.h"
 
 /****µ∆π‚Ã· æ****/
 class LED
@@ -90,11 +88,11 @@ private:
   void stop();
   char Current_State;
   time Current_Time;
-  pit_config_t pitConfig;
+  lptmr_config_t pitConfig;
   
 };
-extern clock clockBase;
 
+extern clock clockBase;
 
 extern OLED OLEDBase;
 

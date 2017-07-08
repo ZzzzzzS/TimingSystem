@@ -87,11 +87,7 @@
 #define OSC_MODE_MASK (MCG_C2_EREFS0_MASK | MCG_C2_HGO0_MASK | MCG_C2_RANGE0_MASK)
 
 #define SIM_CLKDIV1_OUTDIV1_VAL ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV1_MASK) >> SIM_CLKDIV1_OUTDIV1_SHIFT)
-#define SIM_CLKDIV1_OUTDIV2_VAL ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV2_MASK) >> SIM_CLKDIV1_OUTDIV2_SHIFT)
-#define SIM_CLKDIV1_OUTDIV3_VAL ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV3_MASK) >> SIM_CLKDIV1_OUTDIV3_SHIFT)
 #define SIM_CLKDIV1_OUTDIV4_VAL ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV4_MASK) >> SIM_CLKDIV1_OUTDIV4_SHIFT)
-#define SIM_SOPT1_OSC32KSEL_VAL ((SIM->SOPT1 & SIM_SOPT1_OSC32KSEL_MASK) >> SIM_SOPT1_OSC32KSEL_SHIFT)
-#define SIM_SOPT2_PLLFLLSEL_VAL ((SIM->SOPT2 & SIM_SOPT2_PLLFLLSEL_MASK) >> SIM_SOPT2_PLLFLLSEL_SHIFT)
 
 /* MCG_S_CLKST definition. */
 enum _mcg_clkout_stat
@@ -169,16 +165,6 @@ static uint32_t CLOCK_GetFllRefClkFreq(void);
 static uint32_t CLOCK_GetInternalRefClkSelectFreq(void);
 
 /*!
- * @brief Get the MCG PLL/PLL0 reference clock frequency.
- *
- * Get the current MCG PLL/PLL0 reference clock frequency in Hz.
- * This is an internal function.
- *
- * @return MCG PLL/PLL0 reference clock frequency in Hz.
- */
-static uint32_t CLOCK_GetPll0RefFreq(void);
-
-/*!
  * @brief Calculate the RANGE value base on crystal frequency.
  *
  * To setup external crystal oscillator, must set the register bits RANGE
@@ -223,29 +209,9 @@ extern void CLOCK_FllStableDelay(void);
 
 static uint32_t CLOCK_GetMcgExtClkFreq(void)
 {
-    uint32_t freq;
-
-    switch (MCG_C7_OSCSEL_VAL)
-    {
-        case 0U:
-            /* Please call CLOCK_SetXtal0Freq base on board setting before using OSC0 clock. */
-            assert(g_xtal0Freq);
-            freq = g_xtal0Freq;
-            break;
-        case 1U:
-            /* Please call CLOCK_SetXtal32Freq base on board setting before using XTAL32K/RTC_CLKIN clock. */
-            assert(g_xtal32Freq);
-            freq = g_xtal32Freq;
-            break;
-        case 2U:
-            freq = MCG_INTERNAL_IRC_48M;
-            break;
-        default:
-            freq = 0U;
-            break;
-    }
-
-    return freq;
+    /* Please call CLOCK_SetXtal0Freq base on board setting before using OSC0 clock. */
+    assert(g_xtal0Freq);
+    return g_xtal0Freq;
 }
 
 static uint32_t CLOCK_GetFllExtRefClkFreq(void)
@@ -253,7 +219,6 @@ static uint32_t CLOCK_GetFllExtRefClkFreq(void)
     /* FllExtRef = McgExtRef / FllExtRefDiv */
     uint8_t frdiv;
     uint8_t range;
-    uint8_t oscsel;
 
     uint32_t freq = CLOCK_GetMcgExtClkFreq();
 
@@ -266,14 +231,13 @@ static uint32_t CLOCK_GetFllExtRefClkFreq(void)
     freq >>= frdiv;
 
     range = MCG_C2_RANGE_VAL;
-    oscsel = MCG_C7_OSCSEL_VAL;
 
     /*
        When should use divider 32, 64, 128, 256, 512, 1024, 1280, 1536.
        1. MCG_C7[OSCSEL] selects IRC48M.
        2. MCG_C7[OSCSEL] selects OSC0 and MCG_C2[RANGE] is not 0.
     */
-    if (((0U != range) && (kMCG_OscselOsc == oscsel)) || (kMCG_OscselIrc == oscsel))
+    if (((0U != range)))
     {
         switch (frdiv)
         {
@@ -330,12 +294,6 @@ static uint32_t CLOCK_GetFllRefClkFreq(void)
     }
 }
 
-static uint32_t CLOCK_GetPll0RefFreq(void)
-{
-    /* MCG external reference clock. */
-    return CLOCK_GetMcgExtClkFreq();
-}
-
 static uint8_t CLOCK_GetOscRangeFromFreq(uint32_t freq)
 {
     uint8_t range;
@@ -372,49 +330,7 @@ uint32_t CLOCK_GetOsc0ErClkFreq(void)
 
 uint32_t CLOCK_GetEr32kClkFreq(void)
 {
-    uint32_t freq;
-
-    switch (SIM_SOPT1_OSC32KSEL_VAL)
-    {
-        case 0U: /* OSC 32k clock  */
-            freq = (CLOCK_GetOsc0ErClkFreq() == 32768U) ? 32768U : 0U;
-            break;
-        case 2U: /* RTC 32k clock  */
-            /* Please call CLOCK_SetXtal32Freq base on board setting before using XTAL32K/RTC_CLKIN clock. */
-            assert(g_xtal32Freq);
-            freq = g_xtal32Freq;
-            break;
-        case 3U: /* LPO clock      */
-            freq = LPO_CLK_FREQ;
-            break;
-        default:
-            freq = 0U;
-            break;
-    }
-    return freq;
-}
-
-uint32_t CLOCK_GetPllFllSelClkFreq(void)
-{
-    uint32_t freq;
-
-    switch (SIM_SOPT2_PLLFLLSEL_VAL)
-    {
-        case 0U: /* FLL. */
-            freq = CLOCK_GetFllFreq();
-            break;
-        case 1U: /* PLL. */
-            freq = CLOCK_GetPll0Freq();
-            break;
-        case 3U: /* MCG IRC48M. */
-            freq = MCG_INTERNAL_IRC_48M;
-            break;
-        default:
-            freq = 0U;
-            break;
-    }
-
-    return freq;
+    return (CLOCK_GetOsc0ErClkFreq() == 32768U) ? 32768U : 0U;
 }
 
 uint32_t CLOCK_GetPlatClkFreq(void)
@@ -424,17 +340,22 @@ uint32_t CLOCK_GetPlatClkFreq(void)
 
 uint32_t CLOCK_GetFlashClkFreq(void)
 {
-    return CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV4_VAL + 1);
-}
+    uint32_t freq;
 
-uint32_t CLOCK_GetFlexBusClkFreq(void)
-{
-    return CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV3_VAL + 1);
+    freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
+    freq /= (SIM_CLKDIV1_OUTDIV4_VAL + 1);
+
+    return freq;
 }
 
 uint32_t CLOCK_GetBusClkFreq(void)
 {
-    return CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV2_VAL + 1);
+    uint32_t freq;
+
+    freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
+    freq /= (SIM_CLKDIV1_OUTDIV4_VAL + 1);
+
+    return freq;
 }
 
 uint32_t CLOCK_GetCoreSysClkFreq(void)
@@ -453,16 +374,9 @@ uint32_t CLOCK_GetFreq(clock_name_t clockName)
             freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
             break;
         case kCLOCK_BusClk:
-            freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV2_VAL + 1);
-            break;
-        case kCLOCK_FlexBusClk:
-            freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV3_VAL + 1);
-            break;
         case kCLOCK_FlashClk:
-            freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV4_VAL + 1);
-            break;
-        case kCLOCK_PllFllSelClk:
-            freq = CLOCK_GetPllFllSelClkFreq();
+            freq = CLOCK_GetOutClkFreq() / (SIM_CLKDIV1_OUTDIV1_VAL + 1);
+            freq /= (SIM_CLKDIV1_OUTDIV4_VAL + 1);
             break;
         case kCLOCK_Er32kClk:
             freq = CLOCK_GetEr32kClkFreq();
@@ -470,20 +384,11 @@ uint32_t CLOCK_GetFreq(clock_name_t clockName)
         case kCLOCK_Osc0ErClk:
             freq = CLOCK_GetOsc0ErClkFreq();
             break;
-        case kCLOCK_McgFixedFreqClk:
-            freq = CLOCK_GetFixedFreqClkFreq();
-            break;
         case kCLOCK_McgInternalRefClk:
             freq = CLOCK_GetInternalRefClkFreq();
             break;
         case kCLOCK_McgFllClk:
             freq = CLOCK_GetFllFreq();
-            break;
-        case kCLOCK_McgPll0Clk:
-            freq = CLOCK_GetPll0Freq();
-            break;
-        case kCLOCK_McgIrc48MClk:
-            freq = MCG_INTERNAL_IRC_48M;
             break;
         case kCLOCK_LpoClk:
             freq = LPO_CLK_FREQ;
@@ -499,52 +404,6 @@ uint32_t CLOCK_GetFreq(clock_name_t clockName)
 void CLOCK_SetSimConfig(sim_clock_config_t const *config)
 {
     SIM->CLKDIV1 = config->clkdiv1;
-    CLOCK_SetPllFllSelClock(config->pllFllSel);
-    CLOCK_SetEr32kClock(config->er32kSrc);
-}
-
-bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq)
-{
-    bool ret = true;
-
-    CLOCK_DisableClock(kCLOCK_Usbfs0);
-
-    if (kCLOCK_UsbSrcExt == src)
-    {
-        SIM->SOPT2 &= ~SIM_SOPT2_USBSRC_MASK;
-    }
-    else
-    {
-        switch (freq)
-        {
-            case 120000000U:
-                SIM->CLKDIV2 = SIM_CLKDIV2_USBDIV(4) | SIM_CLKDIV2_USBFRAC(1);
-                break;
-            case 96000000U:
-                SIM->CLKDIV2 = SIM_CLKDIV2_USBDIV(1) | SIM_CLKDIV2_USBFRAC(0);
-                break;
-            case 72000000U:
-                SIM->CLKDIV2 = SIM_CLKDIV2_USBDIV(2) | SIM_CLKDIV2_USBFRAC(1);
-                break;
-            case 48000000U:
-                SIM->CLKDIV2 = SIM_CLKDIV2_USBDIV(0) | SIM_CLKDIV2_USBFRAC(0);
-                break;
-            default:
-                ret = false;
-                break;
-        }
-
-        SIM->SOPT2 = ((SIM->SOPT2 & ~(SIM_SOPT2_PLLFLLSEL_MASK | SIM_SOPT2_USBSRC_MASK)) | (uint32_t)src);
-    }
-
-    CLOCK_EnableClock(kCLOCK_Usbfs0);
-
-    if (kCLOCK_UsbSrcIrc48M == src)
-    {
-        USB0->CLK_RECOVER_IRC_EN = 0x03U;
-        USB0->CLK_RECOVER_CTRL |= USB_CLK_RECOVER_CTRL_CLOCK_RECOVER_EN_MASK;
-    }
-    return ret;
 }
 
 uint32_t CLOCK_GetOutClkFreq(void)
@@ -554,9 +413,6 @@ uint32_t CLOCK_GetOutClkFreq(void)
 
     switch (clkst)
     {
-        case kMCG_ClkOutStatPll:
-            mcgoutclk = CLOCK_GetPll0Freq();
-            break;
         case kMCG_ClkOutStatFll:
             mcgoutclk = CLOCK_GetFllFreq();
             break;
@@ -581,7 +437,7 @@ uint32_t CLOCK_GetFllFreq(void)
     uint32_t freq;
 
     /* If FLL is not enabled currently, then return 0U. */
-    if ((MCG->C2 & MCG_C2_LP_MASK) || (MCG->S & MCG_S_PLLST_MASK))
+    if ((MCG->C2 & MCG_C2_LP_MASK))
     {
         return 0U;
     }
@@ -625,63 +481,10 @@ uint32_t CLOCK_GetFixedFreqClkFreq(void)
     }
 }
 
-uint32_t CLOCK_GetPll0Freq(void)
-{
-    uint32_t mcgpll0clk;
-
-    /* If PLL0 is not enabled, return 0. */
-    if (!(MCG->S & MCG_S_LOCK0_MASK))
-    {
-        return 0U;
-    }
-
-    mcgpll0clk = CLOCK_GetPll0RefFreq();
-
-    /*
-     * Please call CLOCK_SetXtal0Freq base on board setting before using OSC0 clock.
-     * Please call CLOCK_SetXtal1Freq base on board setting before using OSC1 clock.
-     */
-    assert(mcgpll0clk);
-
-    mcgpll0clk /= (FSL_FEATURE_MCG_PLL_PRDIV_BASE + MCG_C5_PRDIV0_VAL);
-    mcgpll0clk *= (FSL_FEATURE_MCG_PLL_VDIV_BASE + MCG_C6_VDIV0_VAL);
-
-    return mcgpll0clk;
-}
-
 status_t CLOCK_SetExternalRefClkConfig(mcg_oscsel_t oscsel)
 {
-    bool needDelay;
-    uint32_t i;
-
 #if (defined(MCG_CONFIG_CHECK_PARAM) && MCG_CONFIG_CHECK_PARAM)
-    /* If change MCG_C7[OSCSEL] and external reference clock is system clock source, return error. */
-    if ((MCG_C7_OSCSEL_VAL != oscsel) && (!(MCG->S & MCG_S_IREFST_MASK)))
-    {
-        return kStatus_MCG_SourceUsed;
-    }
 #endif /* MCG_CONFIG_CHECK_PARAM */
-
-    if (MCG_C7_OSCSEL_VAL != oscsel)
-    {
-        /* If change OSCSEL, need to delay, ERR009878. */
-        needDelay = true;
-    }
-    else
-    {
-        needDelay = false;
-    }
-
-    MCG->C7 = (MCG->C7 & ~MCG_C7_OSCSEL_MASK) | MCG_C7_OSCSEL(oscsel);
-    if (needDelay)
-    {
-        /* ERR009878 Delay at least 50 micro-seconds for external clock change valid. */
-        i = 1500U;
-        while (i--)
-        {
-            __NOP();
-        }
-    }
 
     return kStatus_Success;
 }
@@ -734,123 +537,6 @@ status_t CLOCK_SetInternalRefClkConfig(uint8_t enableMode, mcg_irc_mode_t ircs, 
     return kStatus_Success;
 }
 
-uint32_t CLOCK_CalcPllDiv(uint32_t refFreq, uint32_t desireFreq, uint8_t *prdiv, uint8_t *vdiv)
-{
-    uint8_t ret_prdiv;           /* PRDIV to return. */
-    uint8_t ret_vdiv;            /* VDIV to return.  */
-    uint8_t prdiv_min;           /* Min PRDIV value to make reference clock in allowed range. */
-    uint8_t prdiv_max;           /* Max PRDIV value to make reference clock in allowed range. */
-    uint8_t prdiv_cur;           /* PRDIV value for iteration.    */
-    uint8_t vdiv_cur;            /* VDIV value for iteration.     */
-    uint32_t ret_freq = 0U;      /* PLL output fequency to return. */
-    uint32_t diff = 0xFFFFFFFFU; /* Difference between desireFreq and return frequency. */
-    uint32_t ref_div;            /* Reference frequency after PRDIV. */
-
-    /*
-       Steps:
-       1. Get allowed prdiv with such rules:
-          1). refFreq / prdiv >= FSL_FEATURE_MCG_PLL_REF_MIN.
-          2). refFreq / prdiv <= FSL_FEATURE_MCG_PLL_REF_MAX.
-       2. For each allowed prdiv, there are two candidate vdiv values:
-          1). (desireFreq / (refFreq / prdiv)).
-          2). (desireFreq / (refFreq / prdiv)) + 1.
-          If could get the precise desired frequency, return current prdiv and
-          vdiv directly. Otherwise choose the one which is closer to desired
-          frequency.
-     */
-
-    /* Reference frequency is out of range. */
-    if ((refFreq < FSL_FEATURE_MCG_PLL_REF_MIN) ||
-        (refFreq > (FSL_FEATURE_MCG_PLL_REF_MAX * (FSL_FEATURE_MCG_PLL_PRDIV_MAX + FSL_FEATURE_MCG_PLL_PRDIV_BASE))))
-    {
-        return 0U;
-    }
-
-    /* refFreq/PRDIV must in a range. First get the allowed PRDIV range. */
-    prdiv_max = refFreq / FSL_FEATURE_MCG_PLL_REF_MIN;
-    prdiv_min = (refFreq + FSL_FEATURE_MCG_PLL_REF_MAX - 1U) / FSL_FEATURE_MCG_PLL_REF_MAX;
-
-    /* PRDIV traversal. */
-    for (prdiv_cur = prdiv_max; prdiv_cur >= prdiv_min; prdiv_cur--)
-    {
-        /* Reference frequency after PRDIV. */
-        ref_div = refFreq / prdiv_cur;
-
-        vdiv_cur = desireFreq / ref_div;
-
-        if ((vdiv_cur < FSL_FEATURE_MCG_PLL_VDIV_BASE - 1U) || (vdiv_cur > FSL_FEATURE_MCG_PLL_VDIV_BASE + 31U))
-        {
-            /* No VDIV is available with this PRDIV. */
-            continue;
-        }
-
-        ret_freq = vdiv_cur * ref_div;
-
-        if (vdiv_cur >= FSL_FEATURE_MCG_PLL_VDIV_BASE)
-        {
-            if (ret_freq == desireFreq) /* If desire frequency is got. */
-            {
-                *prdiv = prdiv_cur - FSL_FEATURE_MCG_PLL_PRDIV_BASE;
-                *vdiv = vdiv_cur - FSL_FEATURE_MCG_PLL_VDIV_BASE;
-                return ret_freq;
-            }
-            /* New PRDIV/VDIV is closer. */
-            if (diff > desireFreq - ret_freq)
-            {
-                diff = desireFreq - ret_freq;
-                ret_prdiv = prdiv_cur;
-                ret_vdiv = vdiv_cur;
-            }
-        }
-        vdiv_cur++;
-        if (vdiv_cur <= (FSL_FEATURE_MCG_PLL_VDIV_BASE + 31U))
-        {
-            ret_freq += ref_div;
-            /* New PRDIV/VDIV is closer. */
-            if (diff > ret_freq - desireFreq)
-            {
-                diff = ret_freq - desireFreq;
-                ret_prdiv = prdiv_cur;
-                ret_vdiv = vdiv_cur;
-            }
-        }
-    }
-
-    if (0xFFFFFFFFU != diff)
-    {
-        /* PRDIV/VDIV found. */
-        *prdiv = ret_prdiv - FSL_FEATURE_MCG_PLL_PRDIV_BASE;
-        *vdiv = ret_vdiv - FSL_FEATURE_MCG_PLL_VDIV_BASE;
-        ret_freq = (refFreq / ret_prdiv) * ret_vdiv;
-        return ret_freq;
-    }
-    else
-    {
-        /* No proper PRDIV/VDIV found. */
-        return 0U;
-    }
-}
-
-void CLOCK_EnablePll0(mcg_pll_config_t const *config)
-{
-    assert(config);
-
-    uint8_t mcg_c5 = 0U;
-
-    mcg_c5 |= MCG_C5_PRDIV0(config->prdiv);
-    MCG->C5 = mcg_c5; /* Disable the PLL first. */
-
-    MCG->C6 = (MCG->C6 & ~MCG_C6_VDIV0_MASK) | MCG_C6_VDIV0(config->vdiv);
-
-    /* Set enable mode. */
-    MCG->C5 |= ((uint32_t)kMCG_PllEnableIndependent | (uint32_t)config->enableMode);
-
-    /* Wait for PLL lock. */
-    while (!(MCG->S & MCG_S_LOCK0_MASK))
-    {
-    }
-}
-
 void CLOCK_SetOsc0MonitorMode(mcg_monitor_mode_t mode)
 {
     /* Clear the previous flag, MCG_SC[LOCS0]. */
@@ -874,53 +560,6 @@ void CLOCK_SetOsc0MonitorMode(mcg_monitor_mode_t mode)
     }
 }
 
-void CLOCK_SetRtcOscMonitorMode(mcg_monitor_mode_t mode)
-{
-    uint8_t mcg_c8 = MCG->C8;
-
-    mcg_c8 &= ~(MCG_C8_CME1_MASK | MCG_C8_LOCRE1_MASK);
-
-    if (kMCG_MonitorNone != mode)
-    {
-        if (kMCG_MonitorReset == mode)
-        {
-            mcg_c8 |= MCG_C8_LOCRE1_MASK;
-        }
-        mcg_c8 |= MCG_C8_CME1_MASK;
-    }
-    MCG->C8 = mcg_c8;
-}
-
-void CLOCK_SetPll0MonitorMode(mcg_monitor_mode_t mode)
-{
-    uint8_t mcg_c8;
-
-    /* Clear previous flag. */
-    MCG->S = MCG_S_LOLS0_MASK;
-
-    if (kMCG_MonitorNone == mode)
-    {
-        MCG->C6 &= ~MCG_C6_LOLIE0_MASK;
-    }
-    else
-    {
-        mcg_c8 = MCG->C8;
-
-        mcg_c8 &= ~MCG_C8_LOCS1_MASK;
-
-        if (kMCG_MonitorInt == mode)
-        {
-            mcg_c8 &= ~MCG_C8_LOLRE_MASK;
-        }
-        else
-        {
-            mcg_c8 |= MCG_C8_LOLRE_MASK;
-        }
-        MCG->C8 = mcg_c8;
-        MCG->C6 |= MCG_C6_LOLIE0_MASK;
-    }
-}
-
 uint32_t CLOCK_GetStatusFlags(void)
 {
     uint32_t ret = 0U;
@@ -934,37 +573,14 @@ uint32_t CLOCK_GetStatusFlags(void)
     {
         ret |= kMCG_Osc0InitFlag;
     }
-    if (MCG->C8 & MCG_C8_LOCS1_MASK)
-    {
-        ret |= kMCG_RtcOscLostFlag;
-    }
-    if (mcg_s & MCG_S_LOLS0_MASK)
-    {
-        ret |= kMCG_Pll0LostFlag;
-    }
-    if (mcg_s & MCG_S_LOCK0_MASK)
-    {
-        ret |= kMCG_Pll0LockFlag;
-    }
     return ret;
 }
 
 void CLOCK_ClearStatusFlags(uint32_t mask)
 {
-    uint8_t reg;
-
     if (mask & kMCG_Osc0LostFlag)
     {
         MCG->SC &= ~MCG_SC_ATMF_MASK;
-    }
-    if (mask & kMCG_RtcOscLostFlag)
-    {
-        reg = MCG->C8;
-        MCG->C8 = reg;
-    }
-    if (mask & kMCG_Pll0LostFlag)
-    {
-        MCG->S = MCG_S_LOLS0_MASK;
     }
 }
 
@@ -1074,7 +690,6 @@ mcg_mode_t CLOCK_GetMode(void)
     uint32_t clkst = MCG_S_CLKST_VAL;
     uint32_t irefst = MCG_S_IREFST_VAL;
     uint32_t lp = MCG_C2_LP_VAL;
-    uint32_t pllst = MCG_S_PLLST_VAL;
 
     /*------------------------------------------------------------------
                            Mode and Registers
@@ -1146,21 +761,11 @@ mcg_mode_t CLOCK_GetMode(void)
             }
             else
             {
-                if (kMCG_PllstPll == pllst)
-                {
-                    mode = kMCG_ModePBE;
-                }
-                else
                 {
                     mode = kMCG_ModeFBE;
                 }
             }
             break;
-        case kMCG_ClkOutStatPll:
-        {
-            mode = kMCG_ModePEE;
-        }
-        break;
         default:
             break;
     }
@@ -1262,7 +867,6 @@ status_t CLOCK_SetFeeMode(uint8_t frdiv, mcg_dmx32_t dmx32, mcg_drs_t drs, void 
                 | MCG_C1_IREFS(kMCG_FllSrcExternal))); /* IREFS = 0 */
 
     /* If use external crystal as clock source, wait for it stable. */
-    if (MCG_C7_OSCSEL(kMCG_OscselOsc) == (MCG->C7 & MCG_C7_OSCSEL_MASK))
     {
         if (MCG->C2 & MCG_C2_EREFS_MASK)
         {
@@ -1378,17 +982,11 @@ status_t CLOCK_SetFbeMode(uint8_t frdiv, mcg_dmx32_t dmx32, mcg_drs_t drs, void 
 #if (defined(MCG_CONFIG_CHECK_PARAM) && MCG_CONFIG_CHECK_PARAM)
     mcg_mode_t mode = CLOCK_GetMode();
     if (!((kMCG_ModeFEE == mode) || (kMCG_ModeFBI == mode) || (kMCG_ModeFBE == mode) || (kMCG_ModeFEI == mode) ||
-          (kMCG_ModePBE == mode) || (kMCG_ModeBLPE == mode)))
+          (kMCG_ModeBLPE == mode)))
     {
         return kStatus_MCG_ModeUnreachable;
     }
 #endif
-
-    /* Change to FLL mode. */
-    MCG->C6 &= ~MCG_C6_PLLS_MASK;
-    while (MCG->S & MCG_S_PLLST_MASK)
-    {
-    }
 
     /* Set LP bit to enable the FLL */
     MCG->C2 &= ~MCG_C2_LP_MASK;
@@ -1415,7 +1013,6 @@ status_t CLOCK_SetFbeMode(uint8_t frdiv, mcg_dmx32_t dmx32, mcg_drs_t drs, void 
                 | MCG_C1_IREFS(kMCG_FllSrcExternal))); /* IREFS = 0 */
 
     /* If use external crystal as clock source, wait for it stable. */
-    if (MCG_C7_OSCSEL(kMCG_OscselOsc) == (MCG->C7 & MCG_C7_OSCSEL_MASK))
     {
         if (MCG->C2 & MCG_C2_EREFS_MASK)
         {
@@ -1483,68 +1080,6 @@ status_t CLOCK_SetBlpeMode(void)
     return kStatus_Success;
 }
 
-status_t CLOCK_SetPbeMode(mcg_pll_clk_select_t pllcs, mcg_pll_config_t const *config)
-{
-    assert(config);
-
-    /*
-       This function is designed to change MCG to PBE mode from PEE/BLPE/FBE,
-       but with this workflow, the source mode could be all modes except PEI/PBI.
-     */
-    MCG->C2 &= ~MCG_C2_LP_MASK; /* Disable lowpower. */
-
-    /* Change to use external clock first. */
-    MCG->C1 = ((MCG->C1 & ~(MCG_C1_CLKS_MASK | MCG_C1_IREFS_MASK)) | MCG_C1_CLKS(kMCG_ClkOutSrcExternal));
-
-    /* Wait for CLKST clock status bits to show clock source is ext ref clk */
-    while ((MCG->S & (MCG_S_IREFST_MASK | MCG_S_CLKST_MASK)) !=
-           (MCG_S_IREFST(kMCG_FllSrcExternal) | MCG_S_CLKST(kMCG_ClkOutStatExt)))
-    {
-    }
-
-    /* Disable PLL first, then configure PLL. */
-    MCG->C6 &= ~MCG_C6_PLLS_MASK;
-    while (MCG->S & MCG_S_PLLST_MASK)
-    {
-    }
-
-    /* Configure the PLL. */
-    {
-        CLOCK_EnablePll0(config);
-    }
-
-    /* Change to PLL mode. */
-    MCG->C6 |= MCG_C6_PLLS_MASK;
-
-    /* Wait for PLL mode changed. */
-    while (!(MCG->S & MCG_S_PLLST_MASK))
-    {
-    }
-
-    return kStatus_Success;
-}
-
-status_t CLOCK_SetPeeMode(void)
-{
-#if (defined(MCG_CONFIG_CHECK_PARAM) && MCG_CONFIG_CHECK_PARAM)
-    mcg_mode_t mode = CLOCK_GetMode();
-    if (kMCG_ModePBE != mode)
-    {
-        return kStatus_MCG_ModeUnreachable;
-    }
-#endif
-
-    /* Change to use PLL/FLL output clock first. */
-    MCG->C1 = (MCG->C1 & ~MCG_C1_CLKS_MASK) | MCG_C1_CLKS(kMCG_ClkOutSrcOut);
-
-    /* Wait for clock status bits to update */
-    while (MCG_S_CLKST_VAL != kMCG_ClkOutStatPll)
-    {
-    }
-
-    return kStatus_Success;
-}
-
 status_t CLOCK_ExternalModeToFbeModeQuick(void)
 {
 #if (defined(MCG_CONFIG_CHECK_PARAM) && MCG_CONFIG_CHECK_PARAM)
@@ -1559,12 +1094,6 @@ status_t CLOCK_ExternalModeToFbeModeQuick(void)
 
     MCG->C1 = ((MCG->C1 & ~MCG_C1_CLKS_MASK) | MCG_C1_CLKS(kMCG_ClkOutSrcExternal));
     while (MCG_S_CLKST_VAL != kMCG_ClkOutStatExt)
-    {
-    }
-
-    /* Disable PLL. */
-    MCG->C6 &= ~MCG_C6_PLLS_MASK;
-    while (MCG->S & MCG_S_PLLST_MASK)
     {
     }
 
@@ -1631,7 +1160,6 @@ status_t CLOCK_BootToBlpeMode(mcg_oscsel_t oscsel)
                                                                 | MCG_C1_IREFS(kMCG_FllSrcExternal))); /* IREFS = 0 */
 
     /* If use external crystal as clock source, wait for it stable. */
-    if (MCG_C7_OSCSEL(kMCG_OscselOsc) == (MCG->C7 & MCG_C7_OSCSEL_MASK))
     {
         if (MCG->C2 & MCG_C2_EREFS_MASK)
         {
@@ -1653,23 +1181,6 @@ status_t CLOCK_BootToBlpeMode(mcg_oscsel_t oscsel)
     return kStatus_Success;
 }
 
-status_t CLOCK_BootToPeeMode(mcg_oscsel_t oscsel, mcg_pll_clk_select_t pllcs, mcg_pll_config_t const *config)
-{
-    assert(config);
-
-    CLOCK_SetExternalRefClkConfig(oscsel);
-
-    CLOCK_SetPbeMode(pllcs, config);
-
-    /* Change to use PLL output clock. */
-    MCG->C1 = (MCG->C1 & ~MCG_C1_CLKS_MASK) | MCG_C1_CLKS(kMCG_ClkOutSrcOut);
-    while (MCG_S_CLKST_VAL != kMCG_ClkOutStatPll)
-    {
-    }
-
-    return kStatus_Success;
-}
-
 /*
    The transaction matrix. It defines the path for mode switch, the row is for
    current mode and the column is target mode.
@@ -1679,45 +1190,20 @@ status_t CLOCK_BootToPeeMode(mcg_oscsel_t oscsel, mcg_pll_clk_select_t pllcs, mc
    3. Current mode PBE, next mode is mcgModeMatrix[PBE][PEE] = PEE, so swith to PEE.
    Thus the MCG mode has changed from FEI to PEE.
  */
-static const mcg_mode_t mcgModeMatrix[8][8] = {
-    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE,
-     kMCG_ModeFBE}, /* FEI */
-    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeBLPI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE,
-     kMCG_ModeFBE}, /* FBI */
-    {kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeBLPI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFBI,
-     kMCG_ModeFBI}, /* BLPI */
-    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE,
-     kMCG_ModeFBE}, /* FEE */
-    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeBLPE, kMCG_ModePBE,
-     kMCG_ModePBE}, /* FBE */
-    {kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeBLPE, kMCG_ModePBE,
-     kMCG_ModePBE}, /* BLPE */
-    {kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeBLPE, kMCG_ModePBE,
-     kMCG_ModePEE}, /* PBE */
-    {kMCG_ModePBE, kMCG_ModePBE, kMCG_ModePBE, kMCG_ModePBE, kMCG_ModePBE, kMCG_ModePBE, kMCG_ModePBE,
-     kMCG_ModePBE} /* PEE */
-    /*    FEI           FBI           BLPI           FEE           FBE           BLPE           PBE           PEE */
+static const mcg_mode_t mcgModeMatrix[6][6] = {
+    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE},  /* FEI */
+    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeBLPI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE}, /* FBI */
+    {kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeBLPI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFBI}, /* BLPI */
+    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeFBE},  /* FEE */
+    {kMCG_ModeFEI, kMCG_ModeFBI, kMCG_ModeFBI, kMCG_ModeFEE, kMCG_ModeFBE, kMCG_ModeBLPE}, /* FBE */
+    {kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeFBE, kMCG_ModeBLPE}, /* BLPE */
+    /*      FEI           FBI           BLPI          FEE           FBE           BLPE      */
 };
 
 status_t CLOCK_SetMcgConfig(const mcg_config_t *config)
 {
     mcg_mode_t next_mode;
     status_t status = kStatus_Success;
-
-    mcg_pll_clk_select_t pllcs = kMCG_PllClkSelPll0;
-
-    /* If need to change external clock, MCG_C7[OSCSEL]. */
-    if (MCG_C7_OSCSEL_VAL != config->oscsel)
-    {
-        /* If external clock is in use, change to FEI first. */
-        if (!(MCG->S & MCG_S_IRCST_MASK))
-        {
-            CLOCK_ExternalModeToFbeModeQuick();
-            CLOCK_SetFeiMode(config->dmx32, config->drs, (void (*)(void))0);
-        }
-
-        CLOCK_SetExternalRefClkConfig(config->oscsel);
-    }
 
     /* Re-configure MCGIRCLK, if MCGIRCLK is used as system clock source, then change to FEI/PEI first. */
     if (MCG_S_CLKST_VAL == kMCG_ClkOutStatInt)
@@ -1758,25 +1244,6 @@ status_t CLOCK_SetMcgConfig(const mcg_config_t *config)
             case kMCG_ModeBLPE:
                 status = CLOCK_SetBlpeMode();
                 break;
-            case kMCG_ModePBE:
-                /* If target mode is not PBE or PEE, then only need to set CLKS = EXT here. */
-                if ((kMCG_ModePEE == config->mcgMode) || (kMCG_ModePBE == config->mcgMode))
-                {
-                    {
-                        status = CLOCK_SetPbeMode(pllcs, &config->pll0Config);
-                    }
-                }
-                else
-                {
-                    MCG->C1 = ((MCG->C1 & ~MCG_C1_CLKS_MASK) | MCG_C1_CLKS(kMCG_ClkOutSrcExternal));
-                    while (MCG_S_CLKST_VAL != kMCG_ClkOutStatExt)
-                    {
-                    }
-                }
-                break;
-            case kMCG_ModePEE:
-                status = CLOCK_SetPeeMode();
-                break;
             default:
                 break;
         }
@@ -1786,13 +1253,5 @@ status_t CLOCK_SetMcgConfig(const mcg_config_t *config)
         }
     } while (next_mode != config->mcgMode);
 
-    if (config->pll0Config.enableMode & kMCG_PllEnableIndependent)
-    {
-        CLOCK_EnablePll0(&config->pll0Config);
-    }
-    else
-    {
-        MCG->C5 &= ~(uint32_t)kMCG_PllEnableIndependent;
-    }
     return kStatus_Success;
 }

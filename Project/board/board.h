@@ -39,15 +39,15 @@
  ******************************************************************************/
 
 /* The board name */
-#define BOARD_NAME "FRDM-K64F"
+#define BOARD_NAME "FRDM-KL02Z"
 
 /* The UART to use for debug messages. */
-#define BOARD_DEBUG_UART_TYPE DEBUG_CONSOLE_DEVICE_TYPE_UART
+#define BOARD_DEBUG_UART_TYPE DEBUG_CONSOLE_DEVICE_TYPE_LPSCI
 #define BOARD_DEBUG_UART_BASEADDR (uint32_t) UART0
-#define BOARD_DEBUG_UART_CLKSRC SYS_CLK
-#define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetCoreSysClkFreq()
-#define BOARD_UART_IRQ UART0_RX_TX_IRQn
-#define BOARD_UART_IRQ_HANDLER UART0_RX_TX_IRQHandler
+#define BOARD_DEBUG_UART_CLKSRC kCLOCK_McgFllClk
+#define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetFllFreq()
+#define BOARD_UART_IRQ UART0_IRQn
+#define BOARD_UART_IRQ_HANDLER UART0_IRQHandler
 
 #ifndef BOARD_DEBUG_UART_BAUDRATE
 #define BOARD_DEBUG_UART_BAUDRATE 115200
@@ -58,17 +58,17 @@
 #define LOGIC_LED_OFF 1U
 #define BOARD_LED_RED_GPIO GPIOB
 #define BOARD_LED_RED_GPIO_PORT PORTB
-#define BOARD_LED_RED_GPIO_PIN 22U
-#define BOARD_LED_GREEN_GPIO GPIOE
-#define BOARD_LED_GREEN_GPIO_PORT PORTE
-#define BOARD_LED_GREEN_GPIO_PIN 26U
+#define BOARD_LED_RED_GPIO_PIN 6U
+#define BOARD_LED_GREEN_GPIO GPIOB
+#define BOARD_LED_GREEN_GPIO_PORT PORTB
+#define BOARD_LED_GREEN_GPIO_PIN 7U
 #define BOARD_LED_BLUE_GPIO GPIOB
 #define BOARD_LED_BLUE_GPIO_PORT PORTB
-#define BOARD_LED_BLUE_GPIO_PIN 21U
+#define BOARD_LED_BLUE_GPIO_PIN 10U
 
-#define LED_RED_INIT(output)                                                 \
-    GPIO_WritePinOutput(BOARD_LED_RED_GPIO, BOARD_LED_RED_GPIO_PIN, output); \
-    BOARD_LED_RED_GPIO->PDDR |= (1U << BOARD_LED_RED_GPIO_PIN) /*!< Enable target LED_RED */
+#define LED_RED_INIT(output)                                 \
+    GPIO_WritePinOutput(BOARD_LED_RED_GPIO, BOARD_LED_RED_GPIO_PIN, output);\
+    BOARD_LED_RED_GPIO->PDDR |= (1U << BOARD_LED_RED_GPIO_PIN)  /*!< Enable target LED_RED */
 #define LED_RED_ON() \
     GPIO_ClearPinsOutput(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Turn on target LED_RED */
 #define LED_RED_OFF() \
@@ -76,9 +76,9 @@
 #define LED_RED_TOGGLE() \
     GPIO_TogglePinsOutput(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Toggle on target LED_RED */
 
-#define LED_GREEN_INIT(output)                                                   \
-    GPIO_WritePinOutput(BOARD_LED_GREEN_GPIO, BOARD_LED_GREEN_GPIO_PIN, output); \
-    BOARD_LED_GREEN_GPIO->PDDR |= (1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Enable target LED_GREEN */
+#define LED_GREEN_INIT(output)                                   \
+    GPIO_WritePinOutput(BOARD_LED_GREEN_GPIO, BOARD_LED_GREEN_GPIO_PIN, output);\
+    BOARD_LED_GREEN_GPIO->PDDR |= (1U << BOARD_LED_GREEN_GPIO_PIN)  /*!< Enable target LED_GREEN */
 #define LED_GREEN_ON() \
     GPIO_ClearPinsOutput(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Turn on target LED_GREEN */
 #define LED_GREEN_OFF() \
@@ -86,9 +86,9 @@
 #define LED_GREEN_TOGGLE() \
     GPIO_TogglePinsOutput(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Toggle on target LED_GREEN */
 
-#define LED_BLUE_INIT(output)                                                  \
-    GPIO_WritePinOutput(BOARD_LED_BLUE_GPIO, BOARD_LED_BLUE_GPIO_PIN, output); \
-    BOARD_LED_BLUE_GPIO->PDDR |= (1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Enable target LED_BLUE */
+#define LED_BLUE_INIT(output)                                  \
+    GPIO_WritePinOutput(BOARD_LED_BLUE_GPIO, BOARD_LED_BLUE_GPIO_PIN, output);\
+    BOARD_LED_BLUE_GPIO->PDDR |= (1U << BOARD_LED_BLUE_GPIO_PIN)  /*!< Enable target LED_BLUE */
 #define LED_BLUE_ON() \
     GPIO_ClearPinsOutput(BOARD_LED_BLUE_GPIO, 1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Turn on target LED_BLUE */
 #define LED_BLUE_OFF() \
@@ -96,47 +96,12 @@
 #define LED_BLUE_TOGGLE() \
     GPIO_TogglePinsOutput(BOARD_LED_BLUE_GPIO, 1U << BOARD_LED_BLUE_GPIO_PIN) /*!< Toggle on target LED_BLUE */
 
-/* The SDHC instance/channel used for board */
-#define BOARD_SDHC_CD_GPIO_IRQ_HANDLER PORTB_IRQHandler
-
-/* SDHC base address, clock and card detection pin */
-#define BOARD_SDHC_BASEADDR SDHC
-#define BOARD_SDHC_CLKSRC kCLOCK_CoreSysClk
-#define BOARD_SDHC_CLK_FREQ CLOCK_GetFreq(kCLOCK_CoreSysClk)
-#define BOARD_SDHC_IRQ SDHC_IRQn
-#define BOARD_SDHC_CD_GPIO_BASE GPIOE
-#define BOARD_SDHC_CD_GPIO_PIN 6U
-#define BOARD_SDHC_CD_PORT_BASE PORTE
-#define BOARD_SDHC_CD_PORT_IRQ PORTE_IRQn
-#define BOARD_SDHC_CD_PORT_IRQ_HANDLER PORTE_IRQHandler
-#define BOARD_SDHC_CD_LOGIC_RISING
-
 #define BOARD_ACCEL_I2C_BASEADDR I2C0
-
-/* ERPC DSPI configuration */
-#define ERPC_BOARD_DSPI_BASEADDR SPI0
-#define ERPC_BOARD_DSPI_BAUDRATE 500000U
-#define ERPC_BOARD_DSPI_CLKSRC DSPI0_CLK_SRC
-#define ERPC_BOARD_DSPI_CLK_FREQ CLOCK_GetFreq(DSPI0_CLK_SRC)
-#define ERPC_BOARD_DSPI_INT_GPIO GPIOB
-#define ERPC_BOARD_DSPI_INT_PORT PORTB
-#define ERPC_BOARD_DSPI_INT_PIN 2U
-#define ERPC_BOARD_DSPI_INT_PIN_IRQ PORTB_IRQn
-#define ERPC_BOARD_DSPI_INT_PIN_IRQ_HANDLER PORTB_IRQHandler
-
-/* DAC base address */
-#define BOARD_DAC_BASEADDR DAC0
-
-/* Board accelerometer driver */
-#define BOARD_ACCEL_FXOS
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
-/*******************************************************************************
- * API
- ******************************************************************************/
 void BOARD_InitDebugConsole(void);
 
 #if defined(__cplusplus)

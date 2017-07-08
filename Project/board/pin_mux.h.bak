@@ -142,13 +142,6 @@ void BOARD_InitLEDs(void);
  */
 void BOARD_InitTOUCH(void);
 
-
-/*!
- * @brief Configures pin routing and optionally pin electrical features.
- *
- */
-void Func5(void);
-
 #if defined(__cplusplus)
 }
 #endif

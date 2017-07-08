@@ -2,7 +2,7 @@
 #include "fsl_gpio.h"
 #include "fsl_port.h"
 #include "fsl_common.h"
-#include "fsl_pit.h"
+#include "fsl_lptmr.h"
 #include "board.h"
 #include "fsl_debug_console.h"
 
@@ -22,9 +22,9 @@ LED::LED()
 
 void LED::LED_init()
 {
-  GPIO_PinInit(GPIOB,21,&LED_Config);
-  GPIO_PinInit(GPIOB,22,&LED_Config);
-  GPIO_PinInit(GPIOE,26,&LED_Config);
+  GPIO_PinInit(GPIOB,6,&LED_Config);
+  GPIO_PinInit(GPIOB,7,&LED_Config);
+  GPIO_PinInit(GPIOB,10,&LED_Config);
 }
 
 void LED::setColor(unsigned char R,unsigned char G,unsigned char B)
@@ -39,9 +39,9 @@ void LED::setColor(int R,int G,int B)
 
 void LED::setColor(bool R,bool G,bool B)
 {
-  GPIO_WritePinOutput(GPIOB,21,!B);
-  GPIO_WritePinOutput(GPIOB,22,!R);
-  GPIO_WritePinOutput(GPIOE,26,!G);
+  GPIO_WritePinOutput(GPIOB,6,!R);
+  GPIO_WritePinOutput(GPIOB,7,!G);
+  GPIO_WritePinOutput(GPIOB,10,!B);
 }
 
 
@@ -55,9 +55,9 @@ button::button()
 
 void button::button_Init()
 {
-  PORT_SetPinInterruptConfig(PORTA,4U,kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(PORTA,13,kPORT_InterruptFallingEdge);
   EnableIRQ(PORTA_IRQn);
-  GPIO_PinInit(GPIOA,4U,&button_Config);
+  GPIO_PinInit(GPIOA,13,&button_Config);
   PRINTF("OK");
 }
 
@@ -129,17 +129,17 @@ bool time::operator>(const time& Another) const
 
 clock::clock()
 {
-  PIT_GetDefaultConfig(&pitConfig);
+  LPTMR_GetDefaultConfig(&pitConfig);
   this->Set_Current_State(Stop);
 }
 
 void clock::PITinit()
 {
-  PIT_Init(PIT,&pitConfig);//初始化PIT时钟
-  PIT_SetTimerPeriod(PIT, kPIT_Chnl_0, USEC_TO_COUNT(10000U, CLOCK_GetFreq(kCLOCK_BusClk)));//设置周期
-  PIT_EnableInterrupts(PIT, kPIT_Chnl_0, kPIT_TimerInterruptEnable);//允许PIT定时器中断
-  EnableIRQ(PIT0_IRQn);//允许中断
-  PIT_StopTimer(PIT, kPIT_Chnl_0);//先停止计时
+  LPTMR_Init(LPTMR0,&pitConfig);//初始化PIT时钟
+  LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(10000U, CLOCK_GetFreq(kCLOCK_LpoClk)));//设置周期
+  LPTMR_EnableInterrupts(LPTMR0, kLPTMR_TimerInterruptEnable);//允许PIT定时器中断
+  EnableIRQ(LPTMR0_IRQn);//允许中断
+  LPTMR_StopTimer(LPTMR0);//先停止计时
 }
 
 char clock::Get_Current_State()
@@ -187,12 +187,12 @@ void clock::Set_Current_State(char state)
 void clock::stop()
 {
   if(this->GetCurrentTime()>time(3,0))               //大于3秒才能停止
-    PIT_StopTimer(PIT, kPIT_Chnl_0);
+    LPTMR_StopTimer(LPTMR0);
 }
 
 void clock::start()
 {
-  PIT_StartTimer(PIT, kPIT_Chnl_0);
+  LPTMR_StartTimer(LPTMR0);
 }
 
 void clock::CurrentTimeAddMS(unsigned int MS)
@@ -217,7 +217,7 @@ check::check()
 
 void check::check_Init()
 {
-  PORT_SetPinInterruptConfig(PORTC,6,kPORT_InterruptFallingEdge);
-  EnableIRQ(PORTC_IRQn);
-  GPIO_PinInit(GPIOC,6,&Config);
+  PORT_SetPinInterruptConfig(PORTA,8,kPORT_InterruptFallingEdge);
+  EnableIRQ(PORTA_IRQn);
+  GPIO_PinInit(GPIOA,8,&Config);
 }

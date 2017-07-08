@@ -1,5 +1,21 @@
 /*
- * Copyright (c) 2015, Freescale Semiconductor, Inc.
+ * Copyright (c) 2013-2016 ARM Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the License); you may
+ * not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+ * Copyright (c) 2016, Freescale Semiconductor, Inc.
  * Copyright 2016-2017 NXP
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,26 +44,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdint.h>
+#ifndef _FSL_SPI_CMSIS_H_
+#define _FSL_SPI_CMSIS_H_
+
 #include "fsl_common.h"
-#include "fsl_debug_console.h"
-#include "board.h"
+#include "fsl_spi.h"
+#include "RTE_Device.h"
+#include "Driver_SPI.h"
+#include "fsl_clock.h"
+#if defined(FSL_FEATURE_SOC_DMA_COUNT) && (FSL_FEATURE_SOC_DMA_COUNT)
+#include "fsl_spi_dma.h"
+#include "fsl_dma.h"
+#include "fsl_dmamux.h"
+#endif
 
-/*******************************************************************************
- * Code
- ******************************************************************************/
-/* Initialize debug console. */
-void BOARD_InitDebugConsole(void)
-{
-    uint32_t uartClkSrcFreq;
-    /* SIM_SOPT2[27:26]:
-     *  00: Clock Disabled
-     *  01: MCGFLLCLK
-     *  10: OSCERCLK
-     *  11: MCGIRCCLK
-     */
-    CLOCK_SetLpsci0Clock(1);
+#if defined(SPI0)
+extern ARM_DRIVER_SPI Driver_SPI0;
+#endif /* spi0 */
 
-    uartClkSrcFreq = BOARD_DEBUG_UART_CLK_FREQ;
-    DbgConsole_Init(BOARD_DEBUG_UART_BASEADDR, BOARD_DEBUG_UART_BAUDRATE, BOARD_DEBUG_UART_TYPE, uartClkSrcFreq);
-}
+#if defined(SPI1)
+extern ARM_DRIVER_SPI Driver_SPI1;
+#endif /* spi1 */
+
+#endif

@@ -202,6 +202,7 @@ void clock::CurrentTimeAddMS(unsigned int MS)
   this->Current_Time.M_Second%=1000;
 }
 
+
 time clock::GetCurrentTime()
 {
   return this->Current_Time;

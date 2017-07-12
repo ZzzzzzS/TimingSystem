@@ -19,10 +19,11 @@ int main(void) {
   system_init();
   OLEDBase.OLED_Print(1,4,"Powered by ZZS");
   
-  buttonBase.on_PushButton_Clicked();
+  //buttonBase.on_PushButton_Clicked();
   
   while(true)
   {
-    System_RunTime_Update();
+    for(int i=0;i<1000;i++);
+    System_RunTime_Update();     
   }
 }

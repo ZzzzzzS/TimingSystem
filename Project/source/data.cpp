@@ -55,9 +55,9 @@ button::button()
 
 void button::button_Init()
 {
-  PORT_SetPinInterruptConfig(PORTA,13,kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(PORTA,1,kPORT_InterruptFallingEdge);
   EnableIRQ(PORTA_IRQn);
-  GPIO_PinInit(GPIOA,13,&button_Config);
+  GPIO_PinInit(GPIOA,1,&button_Config);
   PRINTF("OK");
 }
 
@@ -217,7 +217,8 @@ check::check()
 
 void check::check_Init()
 {
-  PORT_SetPinInterruptConfig(PORTA,8,kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(PORTA,8,kPORT_InterruptEitherEdge);
   EnableIRQ(PORTA_IRQn);
+  NVIC_EnableIRQ(PORTA_IRQn);
   GPIO_PinInit(GPIOA,8,&Config);
 }

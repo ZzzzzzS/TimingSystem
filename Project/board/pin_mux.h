@@ -33,6 +33,14 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+/* PORTA1 (number 31), J1[10]/J9[3]/SW1/RST */
+#define BOARD_SW1_GPIO                                                     GPIOA   /*!< GPIO device name: GPIOA */
+#define BOARD_SW1_PORT                                                     PORTA   /*!< PORT device name: PORTA */
+#define BOARD_SW1_GPIO_PIN                                                    1U   /*!< PORTA pin index: 1 */
+#define BOARD_SW1_PIN_NAME                                                  PTA1   /*!< Pin name */
+#define BOARD_SW1_LABEL                                   "J1[10]/J9[3]/SW1/RST"   /*!< Label */
+#define BOARD_SW1_NAME                                                     "SW1"   /*!< Identifier name */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
@@ -141,13 +149,6 @@ void BOARD_InitLEDs(void);
  *
  */
 void BOARD_InitTOUCH(void);
-
-
-/*!
- * @brief Configures pin routing and optionally pin electrical features.
- *
- */
-void Func5(void);
 
 #if defined(__cplusplus)
 }

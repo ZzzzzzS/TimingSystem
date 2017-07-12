@@ -10,16 +10,20 @@ extern "C"
   
   void PORTA_IRQHandler()
   {
-    if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<13))
+   /* if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<13))
     {
       buttonBase.on_PushButton_Clicked();
       GPIO_ClearPinsInterruptFlags(GPIOA, 1U << 13);
-    }
-    if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<8))
-    {
+    }*/
+    //if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<8))
+    //{
       buttonBase.on_PushButton_Clicked();
-      GPIO_ClearPinsInterruptFlags(GPIOA, 1U << 8);
-    }
+      GPIO_ClearPinsInterruptFlags(GPIOA, 1 << 8);
+      GPIO_ClearPinsInterruptFlags(GPIOA, 1 << 1);
+    //}
     
   }
+  
+  
+  
 }

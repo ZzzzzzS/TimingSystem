@@ -43,7 +43,7 @@ CURRENTMODE=_ "4"
 [PE_DEVICE]
 CHIPMODE=_ "NXP_KL0x_KL02Z32M4"
 [DebugChecksum]
-Checksum=-540799396
+Checksum=348055879
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -75,7 +75,8 @@ LogFile=_ ""
 [Disassemble mode]
 mode=0
 [Breakpoints]
-Count=0
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\source\data.cpp}.19.3" 1 0 0 0 "" 0 "" 0
+Count=1
 [Aliases]
 Count=0
 SuppressDialog=0

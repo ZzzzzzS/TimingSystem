@@ -47,6 +47,7 @@
                <pins>
                   <pin peripheral="GPIOA" signal="GPIO, 8" pin_num="19" pin_signal="ADC0_SE3/PTA8/I2C1_SCL">
                      <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="pull_enable" value="enable"/>
                      </pin_features>
                   </pin>
@@ -208,14 +209,14 @@
                   <pin peripheral="GPIOA" signal="GPIO, 13" pin_num="27" pin_signal="PTA13">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
-                        <pin_feature name="drive_strength" value="low"/>
-                        <pin_feature name="pull_enable" value="enable"/>
+                        <pin_feature name="drive_strength" value="no_init"/>
+                        <pin_feature name="pull_enable" value="no_init"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIOB" signal="GPIO, 12" pin_num="28" pin_signal="PTB12">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
-                        <pin_feature name="pull_enable" value="enable"/>
+                        <pin_feature name="pull_enable" value="no_init"/>
                      </pin_features>
                   </pin>
                </pins>
@@ -265,11 +266,13 @@
                   <clock_output id="UART0CLK.outFreq" value="41.94304 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
+                  <setting id="MCGMode" value="FEE" locked="false"/>
                   <setting id="COPClkConfig" value="yes" locked="false"/>
                   <setting id="MCG.FCRDIV.scale" value="1" locked="true"/>
                   <setting id="MCG.FLL_mul.scale" value="1280" locked="true"/>
-                  <setting id="MCG.FRDIV.scale" value="128" locked="true"/>
+                  <setting id="MCG.FRDIV.scale" value="1" locked="true"/>
                   <setting id="MCG.IRCS.sel" value="MCG.FCRDIV" locked="false"/>
+                  <setting id="MCG.IREFS.sel" value="MCG.FRDIV" locked="false"/>
                   <setting id="MCG_C1_IRCLKEN_CFG" value="Enabled" locked="false"/>
                   <setting id="MCG_C2_OSC_MODE_CFG" value="ModeOscLowPower" locked="false"/>
                   <setting id="OSC0_CR_ERCLKEN_CFG" value="Enabled" locked="false"/>

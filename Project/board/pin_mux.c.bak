@@ -44,7 +44,7 @@ void BOARD_InitBootPins(void) {
 BOARD_InitPins:
 - options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
-  - {pin_num: '19', peripheral: GPIOA, signal: 'GPIO, 8', pin_signal: ADC0_SE3/PTA8/I2C1_SCL, pull_enable: enable}
+  - {pin_num: '19', peripheral: GPIOA, signal: 'GPIO, 8', pin_signal: ADC0_SE3/PTA8/I2C1_SCL, direction: INPUT, pull_enable: enable}
   - {pin_num: '23', peripheral: GPIOB, signal: 'GPIO, 3', pin_signal: PTB3/IRQ_10/I2C0_SCL/UART0_TX, identifier: '', pull_enable: enable}
   - {pin_num: '24', peripheral: GPIOB, signal: 'GPIO, 4', pin_signal: PTB4/IRQ_11/I2C0_SDA/UART0_RX, identifier: '', pull_enable: enable}
   - {pin_num: '11', peripheral: GPIOB, signal: 'GPIO, 8', pin_signal: ADC0_SE11/PTB8, pull_enable: enable}
@@ -245,8 +245,8 @@ void BOARD_InitLEDs(void) {
 BOARD_InitTOUCH:
 - options: {callFromInitBoot: 'true', prefix: BOARD_, coreID: core0, enableClock: 'true'}
 - pin_list:
-  - {pin_num: '27', peripheral: GPIOA, signal: 'GPIO, 13', pin_signal: PTA13, direction: INPUT, drive_strength: low, pull_enable: enable}
-  - {pin_num: '28', peripheral: GPIOB, signal: 'GPIO, 12', pin_signal: PTB12, direction: INPUT, pull_enable: enable}
+  - {pin_num: '27', peripheral: GPIOA, signal: 'GPIO, 13', pin_signal: PTA13, direction: INPUT, drive_strength: no_init, pull_enable: no_init}
+  - {pin_num: '28', peripheral: GPIOB, signal: 'GPIO, 12', pin_signal: PTB12, direction: INPUT, pull_enable: no_init}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -260,20 +260,8 @@ void BOARD_InitTOUCH(void) {
   CLOCK_EnableClock(kCLOCK_PortA);                           /* Port A Clock Gate Control: Clock enabled */
   CLOCK_EnableClock(kCLOCK_PortB);                           /* Port B Clock Gate Control: Clock enabled */
 
-  const port_pin_config_t porta13_pin27_config = {
-    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
-    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
-    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
-    kPORT_MuxAsGpio,                                         /* Pin is configured as PTA13 */
-  };
-  PORT_SetPinConfig(PORTA, PIN13_IDX, &porta13_pin27_config); /* PORTA13 (pin 27) is configured as PTA13 */
-  const port_pin_config_t portb12_pin28_config = {
-    kPORT_PullUp,                                            /* Internal pull-up resistor is enabled */
-    kPORT_PassiveFilterDisable,                              /* Passive filter is disabled */
-    kPORT_LowDriveStrength,                                  /* Low drive strength is configured */
-    kPORT_MuxAsGpio,                                         /* Pin is configured as PTB12 */
-  };
-  PORT_SetPinConfig(PORTB, PIN12_IDX, &portb12_pin28_config); /* PORTB12 (pin 28) is configured as PTB12 */
+  PORT_SetPinMux(PORTA, PIN13_IDX, kPORT_MuxAsGpio);         /* PORTA13 (pin 27) is configured as PTA13 */
+  PORT_SetPinMux(PORTB, PIN12_IDX, kPORT_MuxAsGpio);         /* PORTB12 (pin 28) is configured as PTB12 */
 }
 
 /*******************************************************************************

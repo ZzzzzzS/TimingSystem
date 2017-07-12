@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\ProgramFiles\iar\common\bin\cspybat" -f "D:\m1899\Documents\项目与比赛\光电计时系统\下位机\2.0\Timer\Project\settings\Timer_V2_on_KL02.Debug.general.xcl" --backend -f "D:\m1899\Documents\项目与比赛\光电计时系统\下位机\2.0\Timer\Project\settings\Timer_V2_on_KL02.Debug.driver.xcl" 
+"D:\ProgramFiles\iar\common\bin\cspybat" -f "D:\m1899\桌面\Timer_V2_on_KL02\settings\Timer_V2_on_KL02.Debug.general.xcl" --backend -f "D:\m1899\桌面\Timer_V2_on_KL02\settings\Timer_V2_on_KL02.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\ProgramFiles\iar\common\bin\cspybat" -f "D:\m1899\Documents\项目与比赛\光电计时系统\下位机\2.0\Timer\Project\settings\Timer_V2_on_KL02.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\m1899\Documents\项目与比赛\光电计时系统\下位机\2.0\Timer\Project\settings\Timer_V2_on_KL02.Debug.driver.xcl" 
+"D:\ProgramFiles\iar\common\bin\cspybat" -f "D:\m1899\桌面\Timer_V2_on_KL02\settings\Timer_V2_on_KL02.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\m1899\桌面\Timer_V2_on_KL02\settings\Timer_V2_on_KL02.Debug.driver.xcl" 
 
 @echo off 
 :end

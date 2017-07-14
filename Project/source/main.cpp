@@ -23,6 +23,7 @@ int main(void) {
   OLEDBase.OLED_Print(1,4,"Powered by ZZS");
   while(true)
   {
+    for(unsigned int i=0;i<100000;i++);
     System_RunTime_Update();
   }
 

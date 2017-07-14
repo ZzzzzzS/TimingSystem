@@ -24,20 +24,19 @@ void system_init()
 
 void System_RunTime_Update()
 {
-
-  asm("nop");
-  asm("nop");
-  asm("nop");
-  asm("nop");
-  asm("nop");
-  asm("nop");
   time temp;
   temp=clockBase.GetCurrentTime();
-  if(temp.second%5==0&&clockBase.Get_Current_State()==Running)
+  if(temp.second%10==0&&clockBase.Get_Current_State()==Running)
+  {
     OLEDBase.OLED_Init();//5秒初始化一次
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+    asm("nop");
+  }
   char display[20];
-  
-  
   PRINTF("current time:%d\n",temp.second);
   sprintf(display,"time %d:%03d",temp.second,temp.M_Second);
   OLEDBase.OLED_Print(1,0,display);

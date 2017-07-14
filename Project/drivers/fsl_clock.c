@@ -237,9 +237,6 @@ static uint32_t CLOCK_GetMcgExtClkFreq(void)
             assert(g_xtal32Freq);
             freq = g_xtal32Freq;
             break;
-        case 2U:
-            freq = MCG_INTERNAL_IRC_48M;
-            break;
         default:
             freq = 0U;
             break;
@@ -273,7 +270,7 @@ static uint32_t CLOCK_GetFllExtRefClkFreq(void)
        1. MCG_C7[OSCSEL] selects IRC48M.
        2. MCG_C7[OSCSEL] selects OSC0 and MCG_C2[RANGE] is not 0.
     */
-    if (((0U != range) && (kMCG_OscselOsc == oscsel)) || (kMCG_OscselIrc == oscsel))
+    if (((0U != range) && (kMCG_OscselOsc == oscsel)))
     {
         switch (frdiv)
         {
@@ -406,9 +403,6 @@ uint32_t CLOCK_GetPllFllSelClkFreq(void)
         case 1U: /* PLL. */
             freq = CLOCK_GetPll0Freq();
             break;
-        case 3U: /* MCG IRC48M. */
-            freq = MCG_INTERNAL_IRC_48M;
-            break;
         default:
             freq = 0U;
             break;
@@ -482,9 +476,6 @@ uint32_t CLOCK_GetFreq(clock_name_t clockName)
         case kCLOCK_McgPll0Clk:
             freq = CLOCK_GetPll0Freq();
             break;
-        case kCLOCK_McgIrc48MClk:
-            freq = MCG_INTERNAL_IRC_48M;
-            break;
         case kCLOCK_LpoClk:
             freq = LPO_CLK_FREQ;
             break;
@@ -539,11 +530,6 @@ bool CLOCK_EnableUsbfs0Clock(clock_usb_src_t src, uint32_t freq)
 
     CLOCK_EnableClock(kCLOCK_Usbfs0);
 
-    if (kCLOCK_UsbSrcIrc48M == src)
-    {
-        USB0->CLK_RECOVER_IRC_EN = 0x03U;
-        USB0->CLK_RECOVER_CTRL |= USB_CLK_RECOVER_CTRL_CLOCK_RECOVER_EN_MASK;
-    }
     return ret;
 }
 

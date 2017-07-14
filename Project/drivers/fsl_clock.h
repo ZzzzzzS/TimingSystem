@@ -112,9 +112,6 @@ extern uint32_t g_xtal0Freq;
  */
 extern uint32_t g_xtal32Freq;
 
-/*! @brief IRC48M clock frequency in Hz. */
-#define MCG_INTERNAL_IRC_48M 48000000U
-
 #if (defined(OSC) && !(defined(OSC0)))
 #define OSC0 OSC
 #endif
@@ -155,6 +152,12 @@ extern uint32_t g_xtal32Freq;
         kCLOCK_Flexbus0 \
     }
 
+/*! @brief Clock ip name array for TSI. */
+#define TSI_CLOCKS  \
+    {               \
+        kCLOCK_Tsi0 \
+    }
+
 /*! @brief Clock ip name array for EWM. */
 #define EWM_CLOCKS  \
     {               \
@@ -186,9 +189,15 @@ extern uint32_t g_xtal32Freq;
     }
 
 /*! @brief Clock ip name array for FTM. */
-#define FTM_CLOCKS                                         \
-    {                                                      \
-        kCLOCK_Ftm0, kCLOCK_Ftm1, kCLOCK_Ftm2, kCLOCK_Ftm3 \
+#define FTM_CLOCKS                            \
+    {                                         \
+        kCLOCK_Ftm0, kCLOCK_Ftm1, kCLOCK_Ftm2 \
+    }
+
+/*! @brief Clock ip name array for LLWU. */
+#define LLWU_CLOCKS  \
+    {                \
+        kCLOCK_Llwu0 \
     }
 
 /*! @brief Clock ip name array for EDMA. */
@@ -198,9 +207,9 @@ extern uint32_t g_xtal32Freq;
     }
 
 /*! @brief Clock ip name array for FLEXCAN. */
-#define FLEXCAN_CLOCKS  \
-    {                   \
-        kCLOCK_Flexcan0 \
+#define FLEXCAN_CLOCKS                   \
+    {                                    \
+        kCLOCK_Flexcan0, kCLOCK_Flexcan1 \
     }
 
 /*! @brief Clock ip name array for DAC. */
@@ -252,9 +261,9 @@ extern uint32_t g_xtal32Freq;
     }
 
 /*! @brief Clock ip name array for I2C. */
-#define I2C_CLOCKS                            \
-    {                                         \
-        kCLOCK_I2c0, kCLOCK_I2c1, kCLOCK_I2c2 \
+#define I2C_CLOCKS               \
+    {                            \
+        kCLOCK_I2c0, kCLOCK_I2c1 \
     }
 
 /*! @brief Clock ip name array for PDB. */
@@ -286,7 +295,6 @@ extern uint32_t g_xtal32Freq;
 
 #define I2C0_CLK_SRC BUS_CLK
 #define I2C1_CLK_SRC BUS_CLK
-#define I2C2_CLK_SRC BUS_CLK
 #define DSPI0_CLK_SRC BUS_CLK
 #define DSPI1_CLK_SRC BUS_CLK
 #define DSPI2_CLK_SRC BUS_CLK
@@ -334,9 +342,8 @@ typedef enum _clock_name
 /*! @brief USB clock source definition. */
 typedef enum _clock_usb_src
 {
-    kCLOCK_UsbSrcPll0 = SIM_SOPT2_USBSRC(1U) | SIM_SOPT2_PLLFLLSEL(1U),   /*!< Use PLL0.      */
-    kCLOCK_UsbSrcIrc48M = SIM_SOPT2_USBSRC(1U) | SIM_SOPT2_PLLFLLSEL(3U), /*!< Use IRC48M.    */
-    kCLOCK_UsbSrcExt = SIM_SOPT2_USBSRC(0U)                               /*!< Use USB_CLKIN. */
+    kCLOCK_UsbSrcPll0 = SIM_SOPT2_USBSRC(1U) | SIM_SOPT2_PLLFLLSEL(1U), /*!< Use PLL0.      */
+    kCLOCK_UsbSrcExt = SIM_SOPT2_USBSRC(0U)                             /*!< Use USB_CLKIN. */
 } clock_usb_src_t;
 
 /*------------------------------------------------------------------------------
@@ -371,7 +378,6 @@ typedef enum _clock_usb_src
 typedef enum _clock_ip_name
 {
     kCLOCK_IpInvalid = 0U,
-    kCLOCK_I2c2 = CLK_GATE_DEFINE(0x1028U, 6U),
     kCLOCK_Uart4 = CLK_GATE_DEFINE(0x1028U, 10U),
     kCLOCK_Uart5 = CLK_GATE_DEFINE(0x1028U, 11U),
 
@@ -379,9 +385,11 @@ typedef enum _clock_ip_name
     kCLOCK_Dac0 = CLK_GATE_DEFINE(0x102CU, 12U),
     kCLOCK_Dac1 = CLK_GATE_DEFINE(0x102CU, 13U),
 
+    kCLOCK_Rnga0 = CLK_GATE_DEFINE(0x1030U, 0U),
+    kCLOCK_Flexcan1 = CLK_GATE_DEFINE(0x1030U, 4U),
     kCLOCK_Spi2 = CLK_GATE_DEFINE(0x1030U, 12U),
     kCLOCK_Sdhc0 = CLK_GATE_DEFINE(0x1030U, 17U),
-    kCLOCK_Ftm3 = CLK_GATE_DEFINE(0x1030U, 25U),
+    kCLOCK_Ftm2 = CLK_GATE_DEFINE(0x1030U, 24U),
     kCLOCK_Adc1 = CLK_GATE_DEFINE(0x1030U, 27U),
 
     kCLOCK_Ewm0 = CLK_GATE_DEFINE(0x1034U, 1U),
@@ -397,8 +405,10 @@ typedef enum _clock_ip_name
     kCLOCK_Cmp1 = CLK_GATE_DEFINE(0x1034U, 19U),
     kCLOCK_Cmp2 = CLK_GATE_DEFINE(0x1034U, 19U),
     kCLOCK_Vref0 = CLK_GATE_DEFINE(0x1034U, 20U),
+    kCLOCK_Llwu0 = CLK_GATE_DEFINE(0x1034U, 28U),
 
     kCLOCK_Lptmr0 = CLK_GATE_DEFINE(0x1038U, 0U),
+    kCLOCK_Tsi0 = CLK_GATE_DEFINE(0x1038U, 5U),
     kCLOCK_PortA = CLK_GATE_DEFINE(0x1038U, 9U),
     kCLOCK_PortB = CLK_GATE_DEFINE(0x1038U, 10U),
     kCLOCK_PortC = CLK_GATE_DEFINE(0x1038U, 11U),
@@ -408,7 +418,6 @@ typedef enum _clock_ip_name
     kCLOCK_Ftf0 = CLK_GATE_DEFINE(0x103CU, 0U),
     kCLOCK_Dmamux0 = CLK_GATE_DEFINE(0x103CU, 1U),
     kCLOCK_Flexcan0 = CLK_GATE_DEFINE(0x103CU, 4U),
-    kCLOCK_Rnga0 = CLK_GATE_DEFINE(0x103CU, 9U),
     kCLOCK_Spi0 = CLK_GATE_DEFINE(0x103CU, 12U),
     kCLOCK_Spi1 = CLK_GATE_DEFINE(0x103CU, 13U),
     kCLOCK_Sai0 = CLK_GATE_DEFINE(0x103CU, 15U),
@@ -418,7 +427,6 @@ typedef enum _clock_ip_name
     kCLOCK_Pit0 = CLK_GATE_DEFINE(0x103CU, 23U),
     kCLOCK_Ftm0 = CLK_GATE_DEFINE(0x103CU, 24U),
     kCLOCK_Ftm1 = CLK_GATE_DEFINE(0x103CU, 25U),
-    kCLOCK_Ftm2 = CLK_GATE_DEFINE(0x103CU, 26U),
     kCLOCK_Adc0 = CLK_GATE_DEFINE(0x103CU, 27U),
     kCLOCK_Rtc0 = CLK_GATE_DEFINE(0x103CU, 29U),
 
@@ -558,7 +566,6 @@ typedef enum _mcg_oscsel
 {
     kMCG_OscselOsc, /*!< Selects System Oscillator (OSCCLK) */
     kMCG_OscselRtc, /*!< Selects 32 kHz RTC Oscillator      */
-    kMCG_OscselIrc  /*!< Selects 48 MHz IRC Oscillator      */
 } mcg_oscsel_t;
 
 /*! @brief MCG PLLCS select */
@@ -761,7 +768,6 @@ static inline void CLOCK_SetPllFllSelClock(uint32_t src)
 {
     SIM->SOPT2 = ((SIM->SOPT2 & ~SIM_SOPT2_PLLFLLSEL_MASK) | SIM_SOPT2_PLLFLLSEL(src));
 }
-
 /*!
  * @brief Set CLKOUT source.
  *

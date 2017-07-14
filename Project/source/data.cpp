@@ -22,9 +22,9 @@ LED::LED()
 
 void LED::LED_init()
 {
+  GPIO_PinInit(GPIOB,20,&LED_Config);
   GPIO_PinInit(GPIOB,21,&LED_Config);
   GPIO_PinInit(GPIOB,22,&LED_Config);
-  GPIO_PinInit(GPIOE,26,&LED_Config);
 }
 
 void LED::setColor(unsigned char R,unsigned char G,unsigned char B)
@@ -39,9 +39,9 @@ void LED::setColor(int R,int G,int B)
 
 void LED::setColor(bool R,bool G,bool B)
 {
-  GPIO_WritePinOutput(GPIOB,21,!B);
-  GPIO_WritePinOutput(GPIOB,22,!R);
-  GPIO_WritePinOutput(GPIOE,26,!G);
+  GPIO_WritePinOutput(GPIOB,20,!B);
+  GPIO_WritePinOutput(GPIOB,21,!R);
+  GPIO_WritePinOutput(GPIOB,22,!G);
 }
 
 
@@ -55,9 +55,9 @@ button::button()
 
 void button::button_Init()
 {
-  PORT_SetPinInterruptConfig(PORTA,4U,kPORT_InterruptFallingEdge);
-  EnableIRQ(PORTA_IRQn);
-  GPIO_PinInit(GPIOA,4U,&button_Config);
+  PORT_SetPinInterruptConfig(PORTD,7,kPORT_InterruptFallingEdge);
+  EnableIRQ(PORTD_IRQn);
+  GPIO_PinInit(GPIOD,7,&button_Config);
   PRINTF("OK");
 }
 
@@ -68,6 +68,10 @@ void button::on_PushButton_Clicked()
     if(time(5,0)>clockBase.GetCurrentTime())
     {
       return;
+    }
+    else if(time(5,0)==clockBase.GetCurrentTime())
+    {
+      clockBase.Set_Current_State(Ready);
     }
     clockBase.Set_Current_State(Stop);
     
@@ -124,6 +128,19 @@ bool time::operator>(const time& Another) const
     else
       return false;
   }
+}
+
+bool time::operator==(const time& Another) const
+{
+  if(Another.second==this->second)
+  {
+    if(Another.M_Second==this->M_Second)
+      return true;
+    else
+      return false;
+  }
+  else
+    return false;
 }
 
 
@@ -202,7 +219,6 @@ void clock::CurrentTimeAddMS(unsigned int MS)
   this->Current_Time.M_Second%=1000;
 }
 
-
 time clock::GetCurrentTime()
 {
   return this->Current_Time;
@@ -218,7 +234,7 @@ check::check()
 
 void check::check_Init()
 {
-  PORT_SetPinInterruptConfig(PORTC,6,kPORT_InterruptFallingEdge);
-  EnableIRQ(PORTC_IRQn);
-  GPIO_PinInit(GPIOC,6,&Config);
+  PORT_SetPinInterruptConfig(PORTB,1,kPORT_InterruptLogicZero);
+  EnableIRQ(PORTB_IRQn);
+  GPIO_PinInit(GPIOB,1,&Config);
 }

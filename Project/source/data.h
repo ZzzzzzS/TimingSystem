@@ -10,7 +10,6 @@
 #include "clock_config.h"
 #include "fsl_gpio.h"
 #include "OLED.h"
-#include "fsl_uart.h"
 
 /****µÆ¹âÌáÊ¾****/
 class LED
@@ -70,6 +69,7 @@ public:
  unsigned int M_Second;
  
  bool operator >(const time& Another) const;
+ bool operator ==(const time& Another) const;
 };
  
 
@@ -93,8 +93,8 @@ private:
   pit_config_t pitConfig;
   
 };
-extern clock clockBase;
 
+extern clock clockBase;
 
 extern OLED OLEDBase;
 

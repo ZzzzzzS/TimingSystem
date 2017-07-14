@@ -1,9 +1,9 @@
 #include "data.h"
 extern "C"
 {
-  void PORTC_IRQHandler()
+  void PORTB_IRQHandler()
   {
-    if(GPIO_GetPinsInterruptFlags(GPIOC)&(1<<6))
+    if(GPIO_GetPinsInterruptFlags(GPIOB)&(1<<1))
     {
       
       PRINTF("GET");
@@ -15,7 +15,7 @@ extern "C"
       
     }
   
-    GPIO_ClearPinsInterruptFlags(GPIOC,1<<6);
+    GPIO_ClearPinsInterruptFlags(GPIOB,1<<1);
   }
   
   void PIT0_IRQHandler()
@@ -25,12 +25,15 @@ extern "C"
     //TODO刷新显示等，可以在另一个中断里实现
   }
   
-  void PORTA_IRQHandler()
+  void PORTD_IRQHandler()
   {
-    if(GPIO_GetPinsInterruptFlags(GPIOA)&(1<<4))
+    if(GPIO_GetPinsInterruptFlags(GPIOD)&(1<<7))
     {
+      if(clockBase.Get_Current_State()==Stop)
+        asm("nop");
+      else
       buttonBase.on_PushButton_Clicked();
     }
-    GPIO_ClearPinsInterruptFlags(GPIOA, 1U << 4);
+    GPIO_ClearPinsInterruptFlags(GPIOD, 1U << 7);
   }
 }

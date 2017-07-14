@@ -1,0 +1,17 @@
+"D:\ProgramFiles\iar\arm\bin\armproc.dll" 
+
+"D:\ProgramFiles\iar\arm\bin\armjlink2.dll" 
+
+"D:\m1899\×ÀÃæ\Timer\debug\cppproject_templates.out" 
+
+--plugin "D:\ProgramFiles\iar\arm\bin\armbat.dll" 
+
+--device_macro "D:\ProgramFiles\iar\arm\config\debugger\NXP\Kxx.dmac" 
+
+--device_macro "D:\ProgramFiles\iar\arm\config\debugger\NXP\Kxx_Trace.dmac" 
+
+--flash_loader "D:\ProgramFiles\iar\arm\config\flashloader\NXP\FlashK60Dxxx128K.board" 
+
+
+
+

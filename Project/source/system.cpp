@@ -26,7 +26,7 @@ void System_RunTime_Update()
 {
   time temp;
   temp=clockBase.GetCurrentTime();
-  if(temp.second%10==0&&clockBase.Get_Current_State()==Running)
+  if(temp.second%5==0&&clockBase.Get_Current_State()==Running)
   {
     OLEDBase.OLED_Init();//5秒初始化一次
     asm("nop");

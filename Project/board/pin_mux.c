@@ -37,8 +37,9 @@ void BOARD_InitBootPins(void) {
     BOARD_InitButton();
 }
 
+#define PCR_PE_ENABLED                0x01u   /*!< Pull Enable: Internal pullup or pulldown resistor is enabled on the corresponding pin, if the pin is configured as a digital input. */
 #define PIN0_IDX                         0u   /*!< Pin number for pin 0 in a port */
-#define PIN1_IDX                         1u   /*!< Pin number for pin 1 in a port */
+#define PIN4_IDX                         4u   /*!< Pin number for pin 4 in a port */
 #define PIN18_IDX                       18u   /*!< Pin number for pin 18 in a port */
 #define PIN19_IDX                       19u   /*!< Pin number for pin 19 in a port */
 
@@ -53,7 +54,9 @@ BOARD_InitPins:
   - {pin_num: '41', peripheral: RTC, signal: EXTAL32, pin_signal: EXTAL32}
   - {pin_num: '42', peripheral: RTC, signal: VBAT, pin_signal: VBAT}
   - {pin_num: '40', peripheral: RTC, signal: XTAL32, pin_signal: XTAL32}
-  - {pin_num: '82', peripheral: GPIOB, signal: 'GPIO, 1', pin_signal: ADC0_SE9/ADC1_SE9/TSI0_CH6/PTB1/I2C0_SDA/FTM1_CH1/RMII0_MDC/MII0_MDC/FTM1_QD_PHB, direction: INPUT}
+  - {pin_num: '81', peripheral: GPIOB, signal: 'GPIO, 0', pin_signal: ADC0_SE8/ADC1_SE8/TSI0_CH0/PTB0/LLWU_P5/I2C0_SCL/FTM1_CH0/RMII0_MDIO/MII0_MDIO/FTM1_QD_PHA,
+    direction: INPUT}
+  - {pin_num: '54', peripheral: GPIOA, signal: 'GPIO, 4', pin_signal: TSI0_CH5/PTA4/LLWU_P3/FTM0_CH1/NMI_b/EZP_CS_b, direction: OUTPUT, open_drain: no_init, pull_enable: enable}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -70,7 +73,12 @@ void BOARD_InitPins(void) {
 
   PORT_SetPinMux(PORTA, PIN18_IDX, kPORT_PinDisabledOrAnalog); /* PORTA18 (pin 72) is configured as EXTAL0 */
   PORT_SetPinMux(PORTA, PIN19_IDX, kPORT_PinDisabledOrAnalog); /* PORTA19 (pin 73) is configured as XTAL0 */
-  PORT_SetPinMux(PORTB, PIN1_IDX, kPORT_MuxAsGpio);          /* PORTB1 (pin 82) is configured as PTB1 */
+  PORT_SetPinMux(PORTA, PIN4_IDX, kPORT_MuxAsGpio);          /* PORTA4 (pin 54) is configured as PTA4 */
+  PORTA->PCR[4] = ((PORTA->PCR[4] &
+    (~(PORT_PCR_PE_MASK | PORT_PCR_ISF_MASK)))               /* Mask bits to zero which are setting */
+      | PORT_PCR_PE(PCR_PE_ENABLED)                          /* Pull Enable: Internal pullup or pulldown resistor is enabled on the corresponding pin, if the pin is configured as a digital input. */
+    );
+  PORT_SetPinMux(PORTB, PIN0_IDX, kPORT_MuxAsGpio);          /* PORTB0 (pin 81) is configured as PTB0 */
   PORT_SetPinMux(PORTE, PIN0_IDX, kPORT_MuxAlt7);            /* PORTE0 (pin 1) is configured as RTC_CLKOUT */
 }
 

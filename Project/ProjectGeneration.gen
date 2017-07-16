@@ -12,7 +12,7 @@
    <settings>
       <toolchain>iar</toolchain>
       <prj_type>.cpp</prj_type>
-      <prj_name>Timer</prj_name>
+      <prj_name>Project</prj_name>
       <rtos>middleware.baremetal</rtos>
    </settings>
    <sdk version="2.2.0" cfg_hash="ea2cf45eb946dc84c698887a8d8524e9">
